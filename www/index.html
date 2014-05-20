@@ -47,6 +47,7 @@
     var dietData = {};
 
     $(document).ready(function(){
+        // alert( AmCharts.stringToDate("2014-12-22","YYYY-MM-DD") );
 
 
         $("#calendar").kendoDatePicker();
@@ -85,7 +86,8 @@
             $.extend(bloodsugarDataWithdate,bloodsugarData);
 
             var newDate2 = newDate.getFullYear() + '-'+(newDate.getMonth()+1)+'-'+(newDate.getDate() );
-            bloodsugarDataWithdate.date = newDate2;
+            bloodsugarDataWithdate.dateForchart = AmCharts.stringToDate(newDate2,"YYYY-M-DD");
+            chartData2.push(bloodsugarDataWithdate);
 
             if(globeData.length == 0 ){
                 data.date = newDate2;
@@ -114,11 +116,13 @@
                 data.bloodsugar.push( bloodsugarData );
                 data.diet = [];
                 globeData.push( data );
-            }    
+                }    
                 
             }
            
         }
+
+
         console.log(globeData);
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforWrite, fail );
         });
@@ -155,14 +159,9 @@
             else{
                 
             }
-            // $('#home .bloodsugarList').css('background-color','#66FF33');
-            // $('#home .bloodsugarList').html('<i class="fa fa-check"></i>血糖'+
-            //     '<ul>'+'<li>血糖值: '+.value+'</li>'+
-            //     '<li>時間: '+allData[i].bloodsugar[j].mealtype+'</li>'+'</ul>');
-            // $('#home .bloodsugarList').click(function(){
-            //     $(this).children('ul').slideToggle();
-            // })
             check();
+
+
         }
 
         writer.write( JSON.stringify(globeData) );
@@ -185,74 +184,11 @@
     function gotFileforInit(file){
        readAsTextInit(file);
     }
-    // function writechart(){
-    //         alert('writechart');
-    //         // SERIAL CHART    
-    //         chart.marginTop = 0;
-    //         chart.autoMarginOffset = 5;
-    //         chart.pathToImages = "js/amcharts/images/";
-    //         chart.zoomOutButton = {
-    //             backgroundColor: '#0000ff',
-    //             backgroundAlpha: 0
-    //         };
-
-    //         chart.dataProvider = chartData2;
-    //         chart.categoryField = "date";
-
-    //         // AXES
-    //         // category                
-    //         var categoryAxis = chart.categoryAxis;
-    //         categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
-    //         categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
-    //         categoryAxis.dashLength = 0;
-    //         categoryAxis.gridAlpha = 0;
-    //         categoryAxis.axisColor = "#000000";
-
-    //         // value axis
-    //         var valueAxis = new AmCharts.ValueAxis();
-    //         valueAxis.axisColor = "#000000";
-    //         valueAxis.axisThickness = 0;
-    //         valueAxis.gridAlpha = 0;
-    //         chart.addValueAxis(valueAxis);
-
-    //         // GRAPHS
-    //         // first graph
-    //         var graph1 = new AmCharts.AmGraph();
-    //         graph1.title = "餐前";
-    //         graph1.valueField = "beforebloodsugar";
-    //         graph1.bullet = "round";
-    //         graph1.hideBulletsCount = 100;
-    //         chart.addGraph(graph1);
-
-    //         // second graph                
-    //         var graph2 = new AmCharts.AmGraph();
-    //         graph2.title = "餐後";
-    //         graph2.fillAlphas = 0;
-    //         graph2.fillToGraph = graph1; // this here we specify which graph object to fill to
-    //         graph2.valueField = "afterbloodsugar";
-    //         graph2.bullet = "square";
-    //         graph2.hideBulletsCount = 300;
-    //         chart.addGraph(graph2);
-
-    //         // CURSOR
-    //         var chartCursor = new AmCharts.ChartCursor();
-    //         chartCursor.cursorPosition = "mouse";
-    //         chartCursor.pan = true;
-    //         chart.addChartCursor(chartCursor);
-
-    //         // SCROLLBAR
-    //         var chartScrollbar = new AmCharts.ChartScrollbar();
-    //         chart.addChartScrollbar(chartScrollbar);
-
-    //         // LEGEND
-    //         var legend = new AmCharts.AmLegend();
-    //         chart.addLegend(legend);
-
-    // }
+   
     function readAsTextInit(file) {
         var reader = new FileReader();
         reader.onloadend = function(evt) {
-            alert('chart read');
+
             var temp = evt.target.result;
             // var chartData = temp.substr(1);
             var chartData = temp;
@@ -261,6 +197,7 @@
             globeData = temp2;
             var temp3 = [];
             for(var i =0;i<temp2.length;i++){
+
                 for(var j =0;j<temp2[i].bloodsugar.length;j++){
                     var tempWithdate = {};
                     $.extend(tempWithdate,temp2[i].bloodsugar[j]);
@@ -269,24 +206,28 @@
                 }
 
             }
-            // alert(JSON.stringify(temp3) );
+            for(var i =0;i<temp3.length;i++){
+                temp3[i].dateForchart = AmCharts.stringToDate(temp3[i].date, "YYYY-M-DD");
+
+            }
+
             chartData2 = temp3;
             // SERIAL CHART    
-            chart.marginTop = 0;
-            chart.autoMarginOffset = 5;
+            // chart.marginTop = 0;
+            // chart.autoMarginOffset = 5;
             chart.pathToImages = "js/amcharts/images/";
-            chart.zoomOutButton = {
-                backgroundColor: '#0000ff',
-                backgroundAlpha: 0
-            };
+            // chart.zoomOutButton = {
+            //     backgroundColor: '#0000ff',
+            //     backgroundAlpha: 0
+            // };
 
             chart.dataProvider = chartData2;
-            chart.categoryField = "date";
+            chart.categoryField = "dateForchart";
             chart.dataDateFormat = "YYYY-MM-DD";
             // AXES
             // category                
             var categoryAxis = chart.categoryAxis;
-            // categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
+            categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
             categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
             categoryAxis.dashLength = 0;
             categoryAxis.gridAlpha = 0;
@@ -295,8 +236,9 @@
             // value axis
             var valueAxis = new AmCharts.ValueAxis();
             valueAxis.axisColor = "#000000";
-            valueAxis.axisThickness = 0;
+            valueAxis.axisThickness = 1;
             valueAxis.gridAlpha = 0;
+            valueAxis.axisAlpha = 1;
             chart.addValueAxis(valueAxis);
 
             // GRAPHS
@@ -312,7 +254,7 @@
             var graph2 = new AmCharts.AmGraph();
             graph2.title = "餐後";
             graph2.fillAlphas = 0;
-            graph2.fillToGraph = graph1; // this here we specify which graph object to fill to
+            // graph2.fillToGraph = graph1; // this here we specify which graph object to fill to
             graph2.valueField = "afterbloodsugar";
             graph2.bullet = "square";
             graph2.hideBulletsCount = 300;
@@ -330,6 +272,7 @@
 
             // LEGEND
             var legend = new AmCharts.AmLegend();
+            legend.useGraphSettings = true;
             chart.addLegend(legend);
        
         }    
