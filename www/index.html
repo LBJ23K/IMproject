@@ -20,6 +20,8 @@
     <script src="js/checkRecord.js"></script>
     <script src="js/upload.js"></script>
     <script src="js/checkConn.js"></script>
+    <script src="js/recordMed.js"></script>
+    <script src="js/createMed.js"></script>
 
     <script src="js/lib/Kendo_js/kendo.all.min.js"></script>
 
@@ -131,7 +133,9 @@
         document.addEventListener("deviceready", onDeviceReady, false);
         check();
         // run background
-        window.plugin.backgroundMode.enable();        
+        window.plugin.backgroundMode.enable();
+        // 載入藥物名稱
+        loadMedName();
     }
 
     // device APIs are available
@@ -505,7 +509,7 @@
             <div class='med_main'>
                 <div class='ok'>Done:)</div>
                 <label>藥物名稱:
-                    <select class="medName">
+                    <select class="medName" id="medSelect">
                         <option>medicine1</option>
                         <option>medicine2</option>
                         <option>medicine3</option>

@@ -66,7 +66,7 @@ function check() {
 
             }
             var k = allData[i].medicine.length - 1;
-            alert('k='+k);
+            //alert('k='+k);
             if(allData[i].medicine.length>0) result2 = true;
             if( result2 == true ){
                 // alert('result2');

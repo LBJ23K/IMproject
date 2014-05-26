@@ -67,12 +67,7 @@ function gotFileWriter2(writer) {
         // })  
         check();
     }
+    //convert a value to JSON
     writer.write(JSON.stringify(globeData));
 
-}
-
-function newMed() {
-    alert("click");
-    var newName = $('#userMed').text();
-    alert(newName);
 }

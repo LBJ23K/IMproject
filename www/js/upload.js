@@ -1,5 +1,5 @@
 var jsonString = '';
-var uuid = device.uuid;
+var uuid = window.device.uuid;
 
 function uploadJson() {
     var myData = JSON.parse(jsonString);
@@ -69,36 +69,32 @@ function uploadJson() {
 
 // device APIs are available
 function readJson() {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSjson, fail);
 }
 
-function gotFS(fileSystem) {
-    fileSystem.root.getFile("data.json", null, gotFileEntry, fail);
+function gotFSjson(fileSystem) {
+    fileSystem.root.getFile("data.json", null, gotFileEntryjson, fail);
 }
 
-function gotFileEntry(fileEntry) {
-    fileEntry.file(gotFile, fail);
+function gotFileEntryjson(fileEntry) {
+    fileEntry.file(gotFilejson, fail);
 }
 
-function gotFile(file){
-    readAsText(file);
+function gotFilejson(file){
+    readAsTextjson(file);
 }
 
-function readAsText(file) {
+function readAsTextjson(file) {
     var reader = new FileReader();
 
     //asnycrhonous task has finished, fire the event:
     reader.onloadend = function(evt) {
         alert("Read as text");
         //assign the data to the global var
-        jsonString = evt.target.result
+        jsonString = evt.target.result;
         //upload json data
         uploadJson();
     };
     reader.readAsText(file); 
 
-}
-
-function fail(error) {
-    alert(error.code);
 }
