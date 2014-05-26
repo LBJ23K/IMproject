@@ -79,7 +79,7 @@ function gotFileWriter2(writer)
       // $('#home .medicineList').click(function(){
       //     $(this).children('ul').slideToggle();
       // })  
-check();
+      check();
     }
     writer.write( JSON.stringify(globeData) );
 

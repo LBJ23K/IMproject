@@ -47,9 +47,6 @@
     var dietData = {};
 
     $(document).ready(function(){
-        // alert( AmCharts.stringToDate("2014-12-22","YYYY-MM-DD") );
-
-
         $("#calendar").kendoDatePicker();
         var bloodsugarRecordList = [];
         $('#bloodSugar td').click(function(){
@@ -64,7 +61,19 @@
             });
             $(this).addClass('active');
         });
-
+        $('.yoforchart').click(function(){
+            // alert('1');
+            var a ={};
+            // alert('y');
+            a.dateForchart = AmCharts.stringToDate('2014-5-21',"YYYY-M-DD");
+            a.beforebloodsugar = 10;
+            a.afterbloodsugar = 100;
+            chartData2.push(a);
+            // console.log(chartData2);
+            chart.dataProvider = chartData2;
+            chart.validateData();
+            chart.write('chartdiv');
+        })
         $('#bloodSugar .submit').click(function(){
             // var bloodsugarRecord = {}
             var bloodsugarData = {};
@@ -86,8 +95,10 @@
             $.extend(bloodsugarDataWithdate,bloodsugarData);
 
             var newDate2 = newDate.getFullYear() + '-'+(newDate.getMonth()+1)+'-'+(newDate.getDate() );
-            bloodsugarDataWithdate.dateForchart = AmCharts.stringToDate(newDate2,"YYYY-M-DD");
-            chartData2.push(bloodsugarDataWithdate);
+            bloodsugarDataWithdate.date = newDate2;
+
+
+            // checkChartData(bloodsugarDataWithdate);
 
             if(globeData.length == 0 ){
                 data.date = newDate2;
@@ -125,6 +136,7 @@
 
         console.log(globeData);
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforWrite, fail );
+            checkChartData(bloodsugarDataWithdate);
         });
         
     });
@@ -196,16 +208,35 @@
             var temp2 = JSON.parse(chartData);
             globeData = temp2;
             var temp3 = [];
+            
+            var Allafterbloodsugar = 0;
+            var Allbeforebloodsugar = 0;
+            var count = 0;
             for(var i =0;i<temp2.length;i++){
-
+                var tempWithdate = {};
+                if(temp2[i].hasOwnProperty('bloodsugar')) count++;
+                
+                var countBefore = 0;
+                var countAfter = 0;
+                tempWithdate.date = temp2[i].date;
                 for(var j =0;j<temp2[i].bloodsugar.length;j++){
-                    var tempWithdate = {};
-                    $.extend(tempWithdate,temp2[i].bloodsugar[j]);
-                    tempWithdate.date = temp2[i].date;
-                    temp3.push(tempWithdate);
+                                        
+                    if(temp2[i].bloodsugar[j].hasOwnProperty('afterbloodsugar') ) {
+                        countAfter++;
+                        Allafterbloodsugar+=temp2[i].bloodsugar[j].afterbloodsugar; 
+                    }
+                    else if(temp2[i].bloodsugar[j].hasOwnProperty('beforebloodsugar') ){
+                        countBefore++;
+                     Allbeforebloodsugar+=temp2[i].bloodsugar[j].beforebloodsugar;
+                 }
+
                 }
+                tempWithdate.beforebloodsugar = parseInt(Allbeforebloodsugar/countBefore,10);
+                tempWithdate.afterbloodsugar = parseInt(Allafterbloodsugar/countAfter,10);
+                temp3.push(tempWithdate);
 
             }
+
             for(var i =0;i<temp3.length;i++){
                 temp3[i].dateForchart = AmCharts.stringToDate(temp3[i].date, "YYYY-M-DD");
 
@@ -213,13 +244,13 @@
 
             chartData2 = temp3;
             // SERIAL CHART    
-            // chart.marginTop = 0;
-            // chart.autoMarginOffset = 5;
+            chart.marginTop = 0;
+            chart.autoMarginOffset = 5;
             chart.pathToImages = "js/amcharts/images/";
-            // chart.zoomOutButton = {
-            //     backgroundColor: '#0000ff',
-            //     backgroundAlpha: 0
-            // };
+            chart.zoomOutButton = {
+                backgroundColor: '#0000ff',
+                backgroundAlpha: 0
+            };
 
             chart.dataProvider = chartData2;
             chart.categoryField = "dateForchart";
@@ -272,7 +303,6 @@
 
             // LEGEND
             var legend = new AmCharts.AmLegend();
-            legend.useGraphSettings = true;
             chart.addLegend(legend);
        
         }    
@@ -301,6 +331,32 @@
 
         };
         reader.readAsText(file);
+    }
+    function checkChartData(dataObject){
+        alert('in');
+        var found = false;
+        alert(JSON.stringify(dataObject) );
+        for(var i =0;i<chartData2.length;i++){
+            if(chartData2[i].date == dataObject.date ){
+                found = true;
+                if(chartData2[i].hasOwnProperty('beforebloodsugar') && dataObject.hasOwnProperty('beforebloodsugar') ) {
+                    chartData2[i].beforebloodsugar = parseInt( (chartData2[i].beforebloodsugar+dataObject.hasOwnProperty('beforebloodsugar'))/2 )
+                }
+                else if(chartData2[i].hasOwnProperty('afterbloodsugar') && dataObject.hasOwnProperty('afterbloodsugar') ) {
+                    chartData2[i].beforebloodsugar = parseInt( (chartData2[i].beforebloodsugar+dataObject.hasOwnProperty('beforebloodsugar'))/2 )
+                }
+            }
+    
+        }
+        if(found==false) {
+            alert('push');
+
+            chartData2.push(dataObject);
+        }
+        chart.dataProvider = chartData2;
+            chart.validateData();
+            chart.write('chartdiv');
+
     }
     function triggerIndexButton(e) {
             var viewID = e.view.element.attr("id");
@@ -372,6 +428,7 @@
                 </li>                
             </ul>
         </div>
+        <button class='yoforchart'>hit me</button>
         
     </div>
 
