@@ -1,4 +1,5 @@
 var jsonString = '';
+var uuid = device.uuid;
 
 function uploadJson() {
     var myData = JSON.parse(jsonString);
@@ -21,7 +22,7 @@ function uploadJson() {
                     date: myData[i].date,
                     mealtype: myData[i].medicine[j].mealtype,
                     name: myData[i].medicine[j].name,
-                    id: '1234'
+                    id: uuid
                 },
                 function(data){
                     alert(data);
@@ -37,7 +38,7 @@ function uploadJson() {
                     mealtype: myData[i].bloodsugar[k].mealtype,
                     value: myData[i].bloodsugar[k].value,
                     comment: myData[i].bloodsugar[k].comment,
-                    id: '1234'
+                    id: uuid
                 },
                 function(data){
                     alert(data);
@@ -53,7 +54,7 @@ function uploadJson() {
                     mealtype: myData[i].diet[l].type,
                     img: myData[i].diet[l].photo,
                     comment: myData[i].diet[l].comment,
-                    id: '1234'
+                    id: uuid
                 },
                 function(data){
                     alert(data);

@@ -14,10 +14,12 @@
     <script src="js/lib/jquery-2.1.0.min.js"></script>
     <script src="js/lib/json2.js"></script>
     <script src="js/lib/json_parse.js"></script>
+    
     <script src="js/alert.js"></script>
     <script src="js/eatdrink.js"></script>
-    <script src="js/checkMed.js"></script>
-
+    <script src="js/checkRecord.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/checkConn.js"></script>
 
     <script src="js/lib/Kendo_js/kendo.all.min.js"></script>
 
@@ -128,13 +130,15 @@
     function onBodyLoad(){
         document.addEventListener("deviceready", onDeviceReady, false);
         check();
-        
+        // run background
+        window.plugin.backgroundMode.enable();        
     }
 
     // device APIs are available
     function onDeviceReady() {
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforInit, fail);
-
+        // event: 當連接到網路時
+        document.addEventListener("online", onOnline, false);
     }
 
     function gotFSforWrite(fileSystem) {
@@ -252,7 +256,7 @@
     function readAsTextInit(file) {
         var reader = new FileReader();
         reader.onloadend = function(evt) {
-            alert('chart read');
+            //alert('chart read');
             var temp = evt.target.result;
             // var chartData = temp.substr(1);
             var chartData = temp;
@@ -415,7 +419,7 @@
             <a data-icon="recents" href="#alertHome" >提醒</a>
             <a data-icon="arrow-yo" href="#chart">圖表</a>
             <a data-icon="contacts" href="#">小天使</a>
-            <a data-icon="settings" href="#">設定</a>
+            <a data-icon="settings" href="#setting">設定</a>
         </div>
     </footer>
     </div>
@@ -486,11 +490,13 @@
         <h1 class='error' style='display:none;position:absolute;top:40%;left:50%;margin-left:-69px;opacity:0.7;'>No Data</h1>
     </div>
 
-    <!-- 量血糖通知 -->
+    <!-- 提醒 -->
     <div data-role="view" data-layout="app" id="alertHome" data-title="提醒">
         <div class='ok'>Done:)</div>
+        <!-- 量血糖通知 -->
         <div>提醒量血糖 <input data-role="switch" class="bsNoti" /></div>
-        <a data-role="button" class="submit" >確定</a>
+        <a data-role="button" class="submit" >確定</a><br>
+        <a data-role="button" data-click="checkConnection" >check</a>
     </div>
 
     <!-- 新增藥物紀錄 -->
@@ -572,6 +578,10 @@
         </div>
     </div>
 
+    <!-- 設定 -->
+    <div data-role="view" data-layout="app" id="setting" data-title="設定">
+        <!-- something -->
+    </div>
 
   </body>
 </html>
