@@ -1,12 +1,18 @@
+var imgURI = '';
+
 $(document).ready(function () {
     $('#medRecord .submit').click(function () {
 
         var medName = $('#medRecord .medName :selected').text();
         var medTime = $('#medRecord td.active').text();
         var newDate = new Date();
-        var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate());
+        var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
+        var medComment = $('#medRecord textarea').val();
+        
         medData.medname = medName;
         medData.mealtype = medTime;
+        medData.imgPath = imgURI;
+        medData.comment = medComment;
 
         if (globeData.length == 0) {
             data.date = newDate2;
@@ -58,16 +64,34 @@ function gotFileWriter2(writer) {
     writer.onwriteend = function () {
 
         $('.ok').fadeIn().delay(1500).fadeOut('slow');
-        // $('#home .medicineList').css('background-color','#66FF33');
-        //  $('#home .medicineList').html('<i class="fa fa-check"></i>藥物'+
-        //     '<ul>'+'<li>時間: '+allData[i].medicine[k].mealtype+'</li>'+
-        //     '<li>藥物: '+allData[i].medicine[k].medname+'</li>'+'</ul>');
-        // $('#home .medicineList').click(function(){
-        //     $(this).children('ul').slideToggle();
-        // })  
+
+        // 檢察今天是否有紀錄
         check();
     }
     //convert a value to JSON
     writer.write(JSON.stringify(globeData));
 
+}
+
+// 照相
+function medPhoto() {
+    navigator.camera.getPicture(onPhotoURISuccessmed, onFail, { 
+        quality: 50,
+        destinationType: navigator.camera.DestinationType.FILE_URI
+    });    
+}
+
+// Called when a photo is successfully retrieved
+function onPhotoURISuccessmed(imageURI) {
+    // Get image handle
+    var displayImage = document.getElementById('medImage');
+
+    // Show the captured photo
+    displayImage.src = imageURI;
+    imgURI = imageURI;          
+}
+
+// Called if something bad happens.
+function onFail(message) {
+    alert('Failed because: ' + message);
 }

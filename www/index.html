@@ -517,7 +517,7 @@
                 </label>
 
                 <a data-role="button" data-rel="modalview" href="#createMed">新增藥物</a>
-                <input type="image" src="" alt="點此照相" class="medImage" onclick="medPhoto();" />
+                <input type="image" src="" alt="點此照相" class="medImage" onclick="medPhoto();" id="medImage" />
 
                 <table  class="table table-bordered" >
                     <tr>
@@ -531,6 +531,9 @@
                         <td>晚餐後</td>
                     </tr>
                 </table>
+
+                <span>備註：</span><br>
+                <textarea  class="form-control" rows="4"></textarea>
                 <div class='btn_container'>
                     <button data-role="button" class="submit">確定</button>
                     <button data-role="button" class="reset" >清除</button>

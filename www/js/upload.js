@@ -3,6 +3,7 @@ var uuid = window.device.uuid;
 
 function uploadJson() {
     var myData = JSON.parse(jsonString);
+    
     if (myData != '' || myData != undefined) {
         //myData的物件數
         var num = myData.length;
@@ -89,7 +90,6 @@ function readAsTextjson(file) {
 
     //asnycrhonous task has finished, fire the event:
     reader.onloadend = function(evt) {
-        alert("Read as text");
         //assign the data to the global var
         jsonString = evt.target.result;
         //upload json data

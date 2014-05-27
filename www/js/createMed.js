@@ -1,6 +1,7 @@
 var newName = '';
 var nameArray = '';
 
+// 新增藥物名稱
 function newMed() {
     newName = $('#userMed').val();
 
@@ -12,6 +13,7 @@ function newMed() {
 	saveName();
 }
 
+// 將新增的藥物名稱儲存在檔案
 function saveName() {
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSname, fail);
 }
@@ -48,6 +50,7 @@ function gotFileWritername(writer) {
     }
 }
 
+// 載入藥物名稱檔案
 function loadMedName() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSname2, fail);
 }
@@ -69,7 +72,6 @@ function readAsTextname(file) {
 
     //asnycrhonous task has finished, fire the event:
     reader.onloadend = function(evt) {
-        alert("Read as text");
         //assign the data to the global var
         nameArray = evt.target.result.split(',');
         //upload json data
@@ -79,13 +81,12 @@ function readAsTextname(file) {
 
 }
 
+// 更新藥物名稱選項
 function updateSelect() {
     var i = 0;
 
     while ( typeof(nameArray[i]) !== "undefined" )
     {
-        alert(nameArray[i]);
-
         var mySelect = document.getElementById("medSelect");
         var option = document.createElement("option");
         option.text = nameArray[i];
