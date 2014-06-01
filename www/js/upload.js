@@ -3,7 +3,9 @@ var uuid = window.device.uuid;
 
 function uploadJson() {
     var myData = JSON.parse(jsonString);
-    
+
+    checkRegisterStatus();
+
     if (myData != '' || myData != undefined) {
         //myData的物件數
         var num = myData.length;
