@@ -3,4 +3,8 @@
 /plugins/
 config.xml
 github
+<<<<<<< HEAD
 github.pub
+=======
+github.pub
+>>>>>>> 01eddf20e7073de72f9be3944d98a3e37533e230
