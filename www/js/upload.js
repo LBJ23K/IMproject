@@ -1,7 +1,11 @@
 var jsonString = '';
+var uuid = window.device.uuid;
 
 function uploadJson() {
     var myData = JSON.parse(jsonString);
+
+    checkRegisterStatus();
+
     if (myData != '' || myData != undefined) {
         //myData的物件數
         var num = myData.length;
@@ -21,7 +25,7 @@ function uploadJson() {
                     date: myData[i].date,
                     mealtype: myData[i].medicine[j].mealtype,
                     name: myData[i].medicine[j].name,
-                    id: '1234'
+                    id: uuid
                 },
                 function(data){
                     alert(data);
@@ -37,7 +41,7 @@ function uploadJson() {
                     mealtype: myData[i].bloodsugar[k].mealtype,
                     value: myData[i].bloodsugar[k].value,
                     comment: myData[i].bloodsugar[k].comment,
-                    id: '1234'
+                    id: uuid
                 },
                 function(data){
                     alert(data);
@@ -53,7 +57,7 @@ function uploadJson() {
                     mealtype: myData[i].diet[l].type,
                     img: myData[i].diet[l].photo,
                     comment: myData[i].diet[l].comment,
-                    id: '1234'
+                    id: uuid
                 },
                 function(data){
                     alert(data);
@@ -68,36 +72,31 @@ function uploadJson() {
 
 // device APIs are available
 function readJson() {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSjson, fail);
 }
 
-function gotFS(fileSystem) {
-    fileSystem.root.getFile("data.json", null, gotFileEntry, fail);
+function gotFSjson(fileSystem) {
+    fileSystem.root.getFile("data.json", null, gotFileEntryjson, fail);
 }
 
-function gotFileEntry(fileEntry) {
-    fileEntry.file(gotFile, fail);
+function gotFileEntryjson(fileEntry) {
+    fileEntry.file(gotFilejson, fail);
 }
 
-function gotFile(file){
-    readAsText(file);
+function gotFilejson(file){
+    readAsTextjson(file);
 }
 
-function readAsText(file) {
+function readAsTextjson(file) {
     var reader = new FileReader();
 
     //asnycrhonous task has finished, fire the event:
     reader.onloadend = function(evt) {
-        alert("Read as text");
         //assign the data to the global var
-        jsonString = evt.target.result
+        jsonString = evt.target.result;
         //upload json data
         uploadJson();
     };
     reader.readAsText(file); 
 
-}
-
-function fail(error) {
-    alert(error.code);
 }
