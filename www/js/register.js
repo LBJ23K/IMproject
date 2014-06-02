@@ -1,4 +1,4 @@
-var deviceID = device.uuid;
+var a = "aaaa";
 
 function autoRegister() {
 alert(device.uuid);

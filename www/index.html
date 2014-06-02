@@ -23,6 +23,7 @@
     <script src="js/recordMed.js"></script>
     <script src="js/createMed.js"></script>
     <script src="js/register.js"></script>
+    <script src="js/deviceChange.js"></script>
 
     <script src="js/lib/Kendo_js/kendo.all.min.js"></script>
 
@@ -50,6 +51,8 @@
     var data = {};
     var medData = {};
     var dietData = {};
+
+    var deviceID = '';
 
     $(document).ready(function(){
 
@@ -144,6 +147,7 @@
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforInit, fail);
         // event: 當連接到網路時
         document.addEventListener("online", onOnline, false);
+        deviceID = device.uuid;
     }
 
     function gotFSforWrite(fileSystem) {
@@ -589,8 +593,9 @@
     <!-- 設定 -->
     <div data-role="view" data-layout="app" id="setting" data-title="設定">
         <!-- something -->
-        <a data-role="button" data-click="autoRegister" >autoregister</a>
-        <a data-role="button" data-click="checkRegisterStatus" >checkregister</a>
+        <a data-role="button" data-click="autoRegister" >autoregister</a><br>
+        <a data-role="button" data-click="checkRegisterStatus" >checkregister</a><br>
+        <a data-role="button" data-click="generateToken" >generateToken</a><br>
     </div>
 
   </body>
