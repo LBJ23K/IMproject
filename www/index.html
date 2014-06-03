@@ -53,6 +53,7 @@
     var dietData = {};
 
     var deviceID = '';
+    var userID = '';
 
     $(document).ready(function(){
 
@@ -148,6 +149,7 @@
         // event: 當連接到網路時
         document.addEventListener("online", onOnline, false);
         deviceID = device.uuid;
+        autoRegister();
     }
 
     function gotFSforWrite(fileSystem) {
@@ -593,9 +595,12 @@
     <!-- 設定 -->
     <div data-role="view" data-layout="app" id="setting" data-title="設定">
         <!-- something -->
-        <a data-role="button" data-click="autoRegister" >autoregister</a><br>
-        <a data-role="button" data-click="checkRegisterStatus" >checkregister</a><br>
         <a data-role="button" data-click="generateToken" >generateToken</a><br>
+        <a data-role="button" data-click="displayDeviceToken" >showToken</a><br>
+        <input type="text" id="inputToken" /><br>
+        <a data-role="button" data-click="changeID" >submit</a><br>
+        <a data-role="button" data-click="readJson" >upload</a><br>
+        <a data-role="button" data-click="syncData" >sync</a><br>
     </div>
 
   </body>

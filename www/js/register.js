@@ -1,5 +1,3 @@
-var a = "aaaa";
-
 function autoRegister() {
 alert(device.uuid);
 	$.post("http://140.112.106.105/gundam/autoRegister.php", 
@@ -9,16 +7,18 @@ alert(device.uuid);
     
     function(data){
         alert(data);
+        getID();
     });
 }
 
-function checkRegisterStatus() {
-	$.post("http://140.112.106.105/gundam/autoRegister.php", 
+function getID() {
+    $.post("http://140.112.106.105/gundam/checkID.php", 
     { 
         did: deviceID
     },
-
+    
     function(data){
-        alert(data);
+        userID = data;
+        alert("userid = " + userID);
     });
 }

@@ -1,10 +1,8 @@
 var jsonString = '';
-var uuid = window.device.uuid;
 
 function uploadJson() {
+alert("upload");
     var myData = JSON.parse(jsonString);
-
-    checkRegisterStatus();
 
     if (myData != '' || myData != undefined) {
         //myData的物件數
@@ -23,9 +21,11 @@ function uploadJson() {
                 $.post("http://140.112.106.105/gundam/uploadMed.php", 
                 { 
                     date: myData[i].date,
+                    name: myData[i].medicine[j].medname,
                     mealtype: myData[i].medicine[j].mealtype,
-                    name: myData[i].medicine[j].name,
-                    id: uuid
+                    imgPath: myData[i].medicine[j].imgPath,
+                    comment: myData[i].medicine[j].comment,
+                    id: userID
                 },
                 function(data){
                     alert(data);
@@ -41,7 +41,7 @@ function uploadJson() {
                     mealtype: myData[i].bloodsugar[k].mealtype,
                     value: myData[i].bloodsugar[k].value,
                     comment: myData[i].bloodsugar[k].comment,
-                    id: uuid
+                    id: userID
                 },
                 function(data){
                     alert(data);
@@ -57,7 +57,7 @@ function uploadJson() {
                     mealtype: myData[i].diet[l].type,
                     img: myData[i].diet[l].photo,
                     comment: myData[i].diet[l].comment,
-                    id: uuid
+                    id: userID
                 },
                 function(data){
                     alert(data);
@@ -88,6 +88,7 @@ function gotFilejson(file){
 }
 
 function readAsTextjson(file) {
+alert("click");
     var reader = new FileReader();
 
     //asnycrhonous task has finished, fire the event:
@@ -100,3 +101,5 @@ function readAsTextjson(file) {
     reader.readAsText(file); 
 
 }
+
+
