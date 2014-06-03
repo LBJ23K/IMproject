@@ -209,7 +209,7 @@ module.exports.metadata =
     "org.apache.cordova.vibration": "0.3.8",
     "com.phonegap.plugins.PushPlugin": "2.2.0",
     "de.appplant.cordova.plugin.local-notification": "0.8.0dev",
-    "org.apache.cordova.device": "0.2.10-dev"
+    "org.apache.cordova.device": "0.2.9"
 }
 // BOTTOM OF METADATA
 });

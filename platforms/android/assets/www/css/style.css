@@ -1,3 +1,9 @@
+@media screen  and (max-height: 100px) {
+    .km-widget.km-tabstrip{
+        display: none;
+    }
+}
+
 html{
     position: relative;
 }
@@ -68,9 +74,7 @@ html{
     width: 100%;
     height: 100%;
 }
-#eatDrink .eatform input{
-    margin: 8px;
-}
+
 #medRecord .med_main{
     font-size: 16px;
 }
@@ -79,13 +83,25 @@ html{
     width: 100%;
     height: 35%;
     text-align: center;
+    border: 1px solid #333;
+    position: relative;
+    margin-bottom: 4%;
+}
+#medRecord .des{
+    font-size: 30px;
+    position: absolute;
+    top:50%;
+    margin-top: -15px;
+    right: 50%;
+    margin-right: -60px;
+
 }
 #medRecord .table.table-bordered{
-    margin-top: 5%;
+    margin-top: 4%;
 }
 #medRecord .btn_container{
     display: block;
-    margin-top: 5%;
+    margin-top: 4%;
     margin-left: auto;
     margin-right: auto;
     width: 80%;
@@ -101,20 +117,74 @@ html{
 #medRecord .submit{
     float: left;
 }
-.ok{
+#history .value{
+    float: right;
+}
+#history .comment{
+
+}
+#history .history-list{
+    /*display: none;*/
+}
+#history .history-img{
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    /*border: 1px solid red;*/
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+
+}
+#history .img-des{
+    font-size: 30px;
+    margin-left: 5%;
+}
+
+#eatDrink .eatImage {
+    display: block;
+    width: 100%;
+    height: 35%;
+    text-align: center;
+    border: 1px solid #333;
+    position: relative;
+    margin-bottom: 4%;
+}
+#eatDrink .des{
     font-size: 30px;
     position: absolute;
-    top:38%;
-    left: 50%;
-    margin-left: -47.5px;
-    opacity: 0.8;
-    color:black;
-    display: none;
+    top:50%;
+    margin-top: -15px;
+    right: 50%;
+    margin-right: -60px;
+
 }
-/*.ok_container{
-    height: 100%;
+#eatDrink .eatform input{
+    margin: 8px;
+}
+#eatDrink .addnewItem{
     width: 100%;
-    position: absolute;
-    background-color: rgba(0,0,0,0.4);
-    display: none;
-}*/
+    text-align: center;
+    padding: 10px;
+    display: block;
+}
+#eatDrink .form-control{
+    margin-top: 5%;
+}
+#eatDrink .btn_container{
+    display: block;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+#eatDrink button{
+    width:30%;
+    height: 8%;
+}
+#eatDrink .reset{
+    float: right;
+}
+#eatDrink .submit{
+    float: left;
+}

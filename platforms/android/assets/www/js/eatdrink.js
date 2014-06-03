@@ -4,10 +4,14 @@ $(document).ready(function(){
 	$('#eatDrink .addnewItem').click(function(){
 		$('#eatDrink .eatForm').append('<input type="checkbox"/><input class="newItem" type="text"/><br/>')
 	})
-	$('#recordHome .large_btn.drink').click(function(){
-		capturePhoto();
-
-	})
+	$('#eatDrink .eatImage').click(function(){
+        capturePhoto();
+    })
+    $('#eatDrink .reset').click(function(){
+        $('#eatDrink .eatImage img').attr('src','');
+        $('#eatDrink .eatImage .des').show();
+        
+    })
 	$('#eatDrink .submit').click(function(){
 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){

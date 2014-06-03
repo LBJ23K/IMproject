@@ -16,10 +16,12 @@
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/cordova.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/cordova_plugins.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/css \
+/Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/data.json \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/img \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/index.html \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/plugins \
+/Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/ss.html \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/css/bootstrap-3.1.1-dist \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/css/font-awesome-4.0.3 \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/css/index.css \
@@ -306,12 +308,16 @@
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/css/Kendo_css/Uniform/slider-v.gif \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/css/Kendo_css/Uniform/sprite.png \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/css/Kendo_css/Uniform/sprite_2x.png \
+/Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/img/do.jpg \
+/Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/img/loading.gif \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/img/logo.png \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/alert.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/amcharts \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/checkMed.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/eatdrink.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/lib \
+/Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/recordMed.js \
+/Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/upload.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/amcharts/amcharts.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/amcharts/exporting \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/amcharts/funnel.js \
@@ -395,6 +401,7 @@
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/amcharts/themes/light.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/amcharts/themes/patterns.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/lib/jquery-2.1.0.min.js \
+/Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/lib/jquery.blockUI.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/lib/json2.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/lib/json_parse.js \
 /Users/LBJ23K/Desktop/IM_Project/test4/platforms/android/assets/www/js/lib/Kendo_js \

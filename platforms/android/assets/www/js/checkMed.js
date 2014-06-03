@@ -47,9 +47,9 @@ function check() {
                     break;   
                 }
             }
-            alert('i='+i);
+            // alert('i='+i);
             var j = allData[i].bloodsugar.length - 1;
-            alert('j='+j);
+            // alert('j='+j);
             if(allData[i].bloodsugar.length>0) result = true;
 
             // 結果為真, X -> V
@@ -66,7 +66,7 @@ function check() {
 
             }
             var k = allData[i].medicine.length - 1;
-            alert('k='+k);
+            // alert('k='+k);
             if(allData[i].medicine.length>0) result2 = true;
             if( result2 == true ){
                 // alert('result2');

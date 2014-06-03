@@ -1,48 +1,4 @@
-$(document).ready(function(){
-    $('#medRecord .submit').click(function(){
 
-        var medName = $('#medRecord .medName :selected').text();
-        var medTime = $('#medRecord td.active').text();
-        var newDate = new Date();
-        var month = new Date().getMonth()+1;
-        var day = new Date().getDate();
-        var newDate2 = newDate.getFullYear() + '-'+(newDate.getMonth()+1)+'-'+(newDate.getDate() );
-        medData.medname = medName;
-        medData.mealtype = medTime;
-
-        if(globeData.length == 0 ){
-            data.date = newDate2;
-            data.medicine = [];
-            data.medicine.push(medData);
-            data.bloodsugar = [];
-            data.diet = [];
-            globeData.push( data );
-        }
-            else {
-                var found = false;
-                for(var i =globeData.length-1;i >= 0;i--){
-                    if(globeData[i].date == newDate2){
-                        if( globeData[i].hasOwnProperty("medicine") ) globeData[i].medicine.push(medData);
-                        else{
-                            globeData[i].medicine = [];
-                            globeData[i].medicine.push(medData);
-                        }
-                        found  = true;
-                        break;
-                    }
-                 if(!found){
-                  data.date = newDate2;
-                  data.medicine = [];
-                  data.medicine.push(medData);
-                  data.bloodsugar = [];
-                  data.diet = [];
-                  globeData.push( data );
-                }    
-              }
-               
-            }   
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail); 
-            })
    $('#alertHome .submit').click(function(){
     // alert("yo");
          var switchInstance = $(".bsNoti").data("kendoMobileSwitch");
@@ -53,7 +9,7 @@ $(document).ready(function(){
                 }
    });
 
-});
+
 
 
 
@@ -79,7 +35,7 @@ function gotFileWriter2(writer)
       // $('#home .medicineList').click(function(){
       //     $(this).children('ul').slideToggle();
       // })  
-check();
+      check();
     }
     writer.write( JSON.stringify(globeData) );
 
@@ -131,4 +87,4 @@ function showAlert() {
         'Diabetes',         // title
         '馬上量!'         // buttonName
     );
-}
+} 
