@@ -72,16 +72,17 @@ alert("click");
 
 function syncMed(serverData) {
 alert("medsync");
-alert(serverData[i]["med_name"]);
     //serverData的物件數
     var num = serverData.length;
+    alert("mednum = " +num);
 
-    for( var i = 0; i < num; i++ )
+    for( var m = 0; m < num; m++ )
     {
-        var medName = serverData[i]["med_name"];
-        var medTime = serverData[i]["med_mealtype"];
-        var newDate2 = serverData[i]["med_date"];
-        var medComment = serverData[i]["med_comment"];
+    alert("m = "+ m);
+        var medName = serverData[m]["med_name"];
+        var medTime = serverData[m]["med_mealtype"];
+        var newDate2 = serverData[m]["med_date"];
+        var medComment = serverData[m]["med_comment"];
         var imgURI = 'test';
         
         medData.medname = medName;
@@ -154,14 +155,16 @@ function syncBloodsugar(serverData) {
 alert("bssync");
     //serverData的物件數
     var num = serverData.length;
+    alert("bsnum = " +num);
 
-    for( var i = 0; i < num; i++ )
+    for( var n = 0; n < num; n++ )
     {
+    alert("n = "+ n);
         var bloodsugarData = {};
         var bloodsugarDataWithdate = {};
-        var bloodsugar = serverData[i]["value"];
-        var mealType = serverData[i]["bs_mealtype"];
-        var comment = serverData[i]["bs_comment"];
+        var bloodsugar = serverData[n]["value"];
+        var mealType = serverData[n]["bs_mealtype"];
+        var comment = serverData[n]["bs_comment"];
 
             if(mealType.substr(2,1)=='前') {
                 bloodsugarData.beforebloodsugar = bloodsugar;
@@ -175,7 +178,7 @@ alert("bssync");
             var newDate = new Date();
             $.extend(bloodsugarDataWithdate,bloodsugarData);
 
-            var newDate2 = serverData[i]["bs_date"];
+            var newDate2 = serverData[n]["bs_date"];
             bloodsugarDataWithdate.date = newDate2;
 
             if(jsonData.length == 0 ){
@@ -188,12 +191,12 @@ alert("bssync");
             }
         else {
             var found = false;
-            for(var i =jsonData.length-1;i >= 0;i--){
-                if(jsonData[i].date == newDate2){
-                    if( jsonData[i].hasOwnProperty("bloodsugar") ) jsonData[i].bloodsugar.push(bloodsugarData);
+            for(var j =jsonData.length-1;j >= 0;j--){
+                if(jsonData[j].date == newDate2){
+                    if( jsonData[j].hasOwnProperty("bloodsugar") ) jsonData[j].bloodsugar.push(bloodsugarData);
                     else{
-                        jsonData[i].bloodsugar = [];
-                        jsonData[i].bloodsugar.push(bloodsugarData);
+                        jsonData[j].bloodsugar = [];
+                        jsonData[j].bloodsugar.push(bloodsugarData);
                     }
                     found = true;
                     break;
