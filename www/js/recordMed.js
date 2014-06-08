@@ -42,9 +42,34 @@ $(document).ready(function () {
                     globeData.push(data);
                 }
             }
-
         }
+
+        $.blockUI({ css: { 
+            border: 'none', 
+            padding: '5px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: '0.5',
+            color: '#fff' 
+            },
+            message:"<h2>Processing...</h2>"       
+        }); 
+
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+    })
+
+    $('#medRecord .medImage').click(function(){
+        capturePhotoForMed();
+    })
+
+    $('#medRecord .reset').click(function(){
+        $('#medRecord td').each(function(){
+                $(this).removeClass('active');
+        });
+        $('#medRecord .medImage img').attr('src','');
+        $('#medRecord .medImage .des').show();
+        
     })
 });
 
@@ -62,13 +87,22 @@ function gotFileEntry(fileEntry) {
 function gotFileWriter2(writer) {
 
     writer.onwriteend = function () {
+        alert('done');
 
-        $('.ok').fadeIn().delay(1500).fadeOut('slow');
-
-        // 檢察今天是否有紀錄
+         $.blockUI({ css: { 
+            border: 'none', 
+            padding: '5px', 
+            backgroundColor: 'rgba(0,0,0,0.6)', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            color: '#fff' 
+            },
+            message:"<h2>Finish!!</h2>"
+        
+            }); 
         check();
     }
-    //convert a value to JSON
+    
     writer.write(JSON.stringify(globeData));
 
 }

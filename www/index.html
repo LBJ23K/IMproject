@@ -14,9 +14,11 @@
     <script src="js/lib/jquery-2.1.0.min.js"></script>
     <script src="js/lib/json2.js"></script>
     <script src="js/lib/json_parse.js"></script>
-    
+    <script src="js/lib/jquery.blockUI.js"></script>
+
+    <!-- include www/js/*.js -->
     <script src="js/alert.js"></script>
-    <script src="js/eatdrink.js"></script>
+    <!--<script src="js/eatdrink.js"></script>-->
     <script src="js/checkRecord.js"></script>
     <script src="js/upload.js"></script>
     <script src="js/checkConn.js"></script>
@@ -51,14 +53,25 @@
     var data = {};
     var medData = {};
     var dietData = {};
+    var datepickerDate;
 
     var deviceID = '';
     var userID = '';
 
     $(document).ready(function(){
+   
+        function onChange() {
+            var datepicker = $("#calendar").data("kendoDatePicker").value();
+
+            datepickerDate = datepicker.getFullYear() + '-'+(datepicker.getMonth()+1)+'-'+(datepicker.getDate() );
+
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforRead, fail );
+        }
+        $("#calendar").kendoDatePicker({
+            change: onChange
+        });
 
 
-        $("#calendar").kendoDatePicker();
         var bloodsugarRecordList = [];
         $('#bloodSugar td').click(function(){
             $('#bloodSugar td').each(function(){
@@ -72,9 +85,21 @@
             });
             $(this).addClass('active');
         });
-
+        $('.yoforchart').click(function(){
+            // alert('1');
+            var a ={};
+            // alert('y');
+            a.dateForchart = AmCharts.stringToDate('2014-5-21',"YYYY-M-DD");
+            a.beforebloodsugar = 10;
+            a.afterbloodsugar = 100;
+            chartData2.push(a);
+            // console.log(chartData2);
+            chart.dataProvider = chartData2;
+            chart.validateData();
+            chart.write('chartdiv');
+        })
         $('#bloodSugar .submit').click(function(){
-            // var bloodsugarRecord = {}
+
             var bloodsugarData = {};
             var bloodsugarDataWithdate = {};
             var bloodsugar = parseInt( $('#bloodSugar .bloodSugar_input').val() );
@@ -104,15 +129,15 @@
                 data.diet = [];
                 globeData.push( data );
             }
-        else {
+            else {
             var found = false;
-            for(var i =globeData.length-1;i >= 0;i--){
-                if(globeData[i].date == newDate2){
-                    if( globeData[i].hasOwnProperty("bloodsugar") ) globeData[i].bloodsugar.push(bloodsugarData);
-                    else{
+                for(var i =globeData.length-1;i >= 0;i--){
+                    if(globeData[i].date == newDate2){
+                        if( globeData[i].hasOwnProperty("bloodsugar") ) globeData[i].bloodsugar.push(bloodsugarData);
+                        else{
                         globeData[i].bloodsugar = [];
                         globeData[i].bloodsugar.push(bloodsugarData);
-                    }
+                        }
                     found = true;
                     break;
                 }
@@ -123,13 +148,29 @@
                 data.bloodsugar.push( bloodsugarData );
                 data.diet = [];
                 globeData.push( data );
-            }    
+                }    
                 
             }
            
         }
+
+
         console.log(globeData);
+            $.blockUI({ css: { 
+            border: 'none', 
+            padding: '5px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: '0.5',
+            color: '#fff' 
+            },
+            message:"<h2>Processing...</h2>"
+        
+         }); 
+
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforWrite, fail );
+            // checkChartData(bloodsugarDataWithdate);
         });
         
     });
@@ -140,7 +181,7 @@
         // run background
         window.plugin.backgroundMode.enable();
         // 載入藥物名稱
-        loadMedName();
+        loadMedName();        
     }
 
     // device APIs are available
@@ -150,6 +191,7 @@
         document.addEventListener("online", onOnline, false);
         deviceID = device.uuid;
         autoRegister();
+
     }
 
     function gotFSforWrite(fileSystem) {
@@ -162,7 +204,18 @@
 
     function gotFileWriter(writer) {
         writer.onwriteend = function(evt) {
-            $('.ok').fadeIn().delay(1500).fadeOut('slow');
+            $.blockUI({ css: { 
+            border: 'none', 
+            padding: '5px', 
+            backgroundColor: 'rgba(0,0,0,0.6)', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            color: '#fff' 
+            },
+            message:"<h2>Finish!!</h2>"
+        
+            }); 
+            setTimeout($.unblockUI, 2000);
             if( $('#chart .error').css('display') == 'block'){
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforInit, fail);
                 $('#chart .error').css('display','none');
@@ -170,14 +223,9 @@
             else{
                 
             }
-            // $('#home .bloodsugarList').css('background-color','#66FF33');
-            // $('#home .bloodsugarList').html('<i class="fa fa-check"></i>血糖'+
-            //     '<ul>'+'<li>血糖值: '+.value+'</li>'+
-            //     '<li>時間: '+allData[i].bloodsugar[j].mealtype+'</li>'+'</ul>');
-            // $('#home .bloodsugarList').click(function(){
-            //     $(this).children('ul').slideToggle();
-            // })
             check();
+
+
         }
 
         writer.write( JSON.stringify(globeData) );
@@ -200,74 +248,11 @@
     function gotFileforInit(file){
        readAsTextInit(file);
     }
-    // function writechart(){
-    //         alert('writechart');
-    //         // SERIAL CHART    
-    //         chart.marginTop = 0;
-    //         chart.autoMarginOffset = 5;
-    //         chart.pathToImages = "js/amcharts/images/";
-    //         chart.zoomOutButton = {
-    //             backgroundColor: '#0000ff',
-    //             backgroundAlpha: 0
-    //         };
-
-    //         chart.dataProvider = chartData2;
-    //         chart.categoryField = "date";
-
-    //         // AXES
-    //         // category                
-    //         var categoryAxis = chart.categoryAxis;
-    //         categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
-    //         categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
-    //         categoryAxis.dashLength = 0;
-    //         categoryAxis.gridAlpha = 0;
-    //         categoryAxis.axisColor = "#000000";
-
-    //         // value axis
-    //         var valueAxis = new AmCharts.ValueAxis();
-    //         valueAxis.axisColor = "#000000";
-    //         valueAxis.axisThickness = 0;
-    //         valueAxis.gridAlpha = 0;
-    //         chart.addValueAxis(valueAxis);
-
-    //         // GRAPHS
-    //         // first graph
-    //         var graph1 = new AmCharts.AmGraph();
-    //         graph1.title = "餐前";
-    //         graph1.valueField = "beforebloodsugar";
-    //         graph1.bullet = "round";
-    //         graph1.hideBulletsCount = 100;
-    //         chart.addGraph(graph1);
-
-    //         // second graph                
-    //         var graph2 = new AmCharts.AmGraph();
-    //         graph2.title = "餐後";
-    //         graph2.fillAlphas = 0;
-    //         graph2.fillToGraph = graph1; // this here we specify which graph object to fill to
-    //         graph2.valueField = "afterbloodsugar";
-    //         graph2.bullet = "square";
-    //         graph2.hideBulletsCount = 300;
-    //         chart.addGraph(graph2);
-
-    //         // CURSOR
-    //         var chartCursor = new AmCharts.ChartCursor();
-    //         chartCursor.cursorPosition = "mouse";
-    //         chartCursor.pan = true;
-    //         chart.addChartCursor(chartCursor);
-
-    //         // SCROLLBAR
-    //         var chartScrollbar = new AmCharts.ChartScrollbar();
-    //         chart.addChartScrollbar(chartScrollbar);
-
-    //         // LEGEND
-    //         var legend = new AmCharts.AmLegend();
-    //         chart.addLegend(legend);
-
-    // }
+   
     function readAsTextInit(file) {
         var reader = new FileReader();
         reader.onloadend = function(evt) {
-            //alert('chart read');
+
             var temp = evt.target.result;
             // var chartData = temp.substr(1);
             var chartData = temp;
@@ -275,16 +260,40 @@
             var temp2 = JSON.parse(chartData);
             globeData = temp2;
             var temp3 = [];
+            
+            var Allafterbloodsugar = 0;
+            var Allbeforebloodsugar = 0;
+            var count = 0;
             for(var i =0;i<temp2.length;i++){
+                var tempWithdate = {};
+                if(temp2[i].hasOwnProperty('bloodsugar')) count++;
+                
+                var countBefore = 0;
+                var countAfter = 0;
+                tempWithdate.date = temp2[i].date;
                 for(var j =0;j<temp2[i].bloodsugar.length;j++){
-                    var tempWithdate = {};
-                    $.extend(tempWithdate,temp2[i].bloodsugar[j]);
-                    tempWithdate.date = temp2[i].date;
-                    temp3.push(tempWithdate);
+                                        
+                    if(temp2[i].bloodsugar[j].hasOwnProperty('afterbloodsugar') ) {
+                        countAfter++;
+                        Allafterbloodsugar+=temp2[i].bloodsugar[j].afterbloodsugar; 
+                    }
+                    else if(temp2[i].bloodsugar[j].hasOwnProperty('beforebloodsugar') ){
+                        countBefore++;
+                     Allbeforebloodsugar+=temp2[i].bloodsugar[j].beforebloodsugar;
+                 }
+
                 }
+                tempWithdate.beforebloodsugar = parseInt(Allbeforebloodsugar/countBefore,10);
+                tempWithdate.afterbloodsugar = parseInt(Allafterbloodsugar/countAfter,10);
+                temp3.push(tempWithdate);
 
             }
-            // alert(JSON.stringify(temp3) );
+
+            for(var i =0;i<temp3.length;i++){
+                temp3[i].dateForchart = AmCharts.stringToDate(temp3[i].date, "YYYY-M-DD");
+
+            }
+
             chartData2 = temp3;
             // SERIAL CHART    
             chart.marginTop = 0;
@@ -296,12 +305,12 @@
             };
 
             chart.dataProvider = chartData2;
-            chart.categoryField = "date";
+            chart.categoryField = "dateForchart";
             chart.dataDateFormat = "YYYY-MM-DD";
             // AXES
             // category                
             var categoryAxis = chart.categoryAxis;
-            // categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
+            categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
             categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
             categoryAxis.dashLength = 0;
             categoryAxis.gridAlpha = 0;
@@ -310,8 +319,9 @@
             // value axis
             var valueAxis = new AmCharts.ValueAxis();
             valueAxis.axisColor = "#000000";
-            valueAxis.axisThickness = 0;
+            valueAxis.axisThickness = 1;
             valueAxis.gridAlpha = 0;
+            valueAxis.axisAlpha = 1;
             chart.addValueAxis(valueAxis);
 
             // GRAPHS
@@ -327,7 +337,7 @@
             var graph2 = new AmCharts.AmGraph();
             graph2.title = "餐後";
             graph2.fillAlphas = 0;
-            graph2.fillToGraph = graph1; // this here we specify which graph object to fill to
+            // graph2.fillToGraph = graph1; // this here we specify which graph object to fill to
             graph2.valueField = "afterbloodsugar";
             graph2.bullet = "square";
             graph2.hideBulletsCount = 300;
@@ -366,18 +376,72 @@
     function readAsText(file) {
         var reader = new FileReader();
         reader.onloadend = function(evt) {
+            $('#history .history-list').html('');
             var temp = evt.target.result;
-            var chartData = temp.substr(1);
-            
-            // alert("chartData");
 
-        };
+            var histroyData = JSON.parse(temp);
+            var i=0;
+
+            for(i;i<histroyData.length;i++){
+
+                if(histroyData[i].date == datepickerDate ) {
+                    break;
+                }
+            }
+            var bsLength = ( (histroyData[i].bloodsugar).length )-1;
+            var medLength = ( (histroyData[i].medicine).length ) -1;
+            var dietLength = ( (histroyData[i].diet).length ) -1;
+
+            // alert(bsLength+' '+medLength+' '+dietLength);
+            if(bsLength+1 > 0 ){
+                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">血糖</span></div></div><ul class="km-list"><li>血糖值： <span class="value" >'+histroyData[i].bloodsugar[bsLength].value+'</span></li><li>餐別：<span class="value">'+histroyData[i].bloodsugar[bsLength].mealtype+'</span></li><li>備註：<br/><span class="comment">'+histroyData[i].bloodsugar[bsLength].comment+'</span></li></ul></li>');
+
+            }
+            if(dietLength+1 > 0 ){
+                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">血糖</span></div></div><ul class="km-list"><li>血糖值： <span class="value" >'+history[i].diet[dietLength].value+'</span></li><li>餐別：<span class="value">'+history[i].diet[dietLength].mealtype+'</span></li><li>備註：<br/><span class="comment">'+history[i].diet[dietLength].comment+'</span></li></ul>');
+
+            }
+            if(medLength+1 > 0 ){
+
+                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">藥物</span></div></div><ul class="km-list"><li><img class="history-img" src="img/do.jpg"/><span class="img-des">'+datepickerDate+'</span></li><li>藥物：<span class="value" >'+histroyData[i].medicine[medLength].medname+'</li>'+'<li>餐別：<span class="value">'+histroyData[i].medicine[medLength].mealtype+'</span></li></ul></li>');
+
+            }
+            
+
+
+        }
         reader.readAsText(file);
+    }
+    function checkChartData(dataObject){
+        // alert('in');
+        var found = false;
+        alert(JSON.stringify(dataObject) );
+        for(var i =0;i<chartData2.length;i++){
+            if(chartData2[i].date == dataObject.date ){
+                found = true;
+                if(chartData2[i].hasOwnProperty('beforebloodsugar') && dataObject.hasOwnProperty('beforebloodsugar') ) {
+                    chartData2[i].beforebloodsugar = parseInt( (chartData2[i].beforebloodsugar+dataObject.hasOwnProperty('beforebloodsugar'))/2 )
+                }
+                else if(chartData2[i].hasOwnProperty('afterbloodsugar') && dataObject.hasOwnProperty('afterbloodsugar') ) {
+                    chartData2[i].beforebloodsugar = parseInt( (chartData2[i].beforebloodsugar+dataObject.hasOwnProperty('beforebloodsugar'))/2 )
+                }
+            }
+    
+        }
+        if(found==false) {
+            alert('push');
+
+            chartData2.push(dataObject);
+        }
+        chart.dataProvider = chartData2;
+            chart.validateData();
+            chart.write('chartdiv');
+
     }
     function triggerIndexButton(e) {
             var viewID = e.view.element.attr("id");
             if( viewID == 'bloodSugar' || viewID == 'history' 
-                ||viewID == 'alert' || viewID == 'medRecord') {
+                ||viewID == 'alert' || viewID == 'medRecord'||viewID=='eatDrink') {
                 e.layout.header.find(".nav-backbtn").css('visibility','visible');
             }
             else if(viewID =='chart'){
@@ -423,14 +487,14 @@
 
         </div>
     </header>
-    <footer data-role="footer">
+    <footer id = "footer" data-role="footer">
         <div data-role="tabstrip">
             <a data-icon="home" href="#home">首頁</a>
             <a data-icon="compose" href="#recordHome" >記錄</a>
             <a data-icon="recents" href="#alertHome" >提醒</a>
             <a data-icon="arrow-yo" href="#chart">圖表</a>
             <a data-icon="contacts" href="#">小天使</a>
-            <a data-icon="settings" href="#setting">設定</a>
+            <a data-icon="settings" href="#setting">設定</a
         </div>
     </footer>
     </div>
@@ -444,15 +508,15 @@
                 </li>                
             </ul>
         </div>
+
         
     </div>
 
     <div data-role="view" data-layout="app" id="recordHome" data-title="記錄">
         <div data-role="touch" data-enable-swipe="1" data-swipe="swipeTohistory.swipe" style="width:100%;height:100%;">
             <a href="#bloodSugar" data-role="button" class="large_btn">血糖</a>
-            <a data-role="button"  class="large_btn drink">飲食</a>
+            <a href="#eatDrink" data-role="button"  class="large_btn">飲食</a>
             <a href="#medRecord" data-role="button" class="large_btn">藥物</a>
-            <!-- <div class="circle-change"><i class="fa fa-circle"></i><i class="fa fa-circle-o"></i></div> -->
         </div>
     </div>
 
@@ -460,7 +524,7 @@
     <div data-role="view" data-layout="app" id="bloodSugar" data-title="血糖記錄" 
     data-transition="slide" >
         <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10">
-            <div class='ok'>Done:)</div>
+
             <div class='bloodsugar_main'>
                 <span>血糖值：</span><input class="bloodSugar_input" type="text" placeholder="mg/dl">
                     <table  class="table table-bordered" >
@@ -487,12 +551,12 @@
             </div>
         </div>
     </div>
-    <!-- <div data-role="view" data-layout="app" id="history" data-title="記錄歷史" data-transition="slide"> -->
-        <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;">
+    <div data-role="view" data-layout="app" id="history" data-title="記錄歷史" data-transition="slide">
+        <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10;">
             <input id="calendar" />
-            <div id="recordList">fsal</div>
-            <div id="printDiv">aabbcc</div>
-            <!-- <div class="circle-change"><i class="fa fa-circle-o"></i><i class="fa fa-circle"></i></div> -->
+            <ul data-role="listview" data-style="inset" data-type="group" class="history-list">
+         
+            </ul>
         </div>
         
     </div>
@@ -514,7 +578,7 @@
     <div data-role="view" data-layout="app" id="medRecord" data-title="藥物紀錄" data-transition="slide">
         <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10">
             <div class='med_main'>
-                <div class='ok'>Done:)</div>
+                <div class="medImage"><p class="des">點此拍照</p><img style="display:block;width:100%;height:100%;" src=""/></div>
                 <label>藥物名稱:
                     <select class="medName" id="medSelect">
                         <option>medicine1</option>
@@ -524,8 +588,6 @@
                 </label>
 
                 <a data-role="button" data-rel="modalview" href="#createMed">新增藥物</a>
-                <input type="image" src="" alt="點此照相" class="medImage" onclick="medPhoto();" id="medImage" />
-
                 <table  class="table table-bordered" >
                     <tr>
                         <td>早餐前</td>
@@ -568,27 +630,30 @@
 
     <div data-role="view" data-layout="app" id="eatDrink" data-title="飲食記錄" 
     data-transition="slide" >
-        <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;">
-            <p align="center"><img style="display:none;width:50%;height:50%;" class="imageShow" src="" /></p>
-            <br>
+        <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10">
+            <div class="eatdrink_main">
+                <div class="eatImage"><p class="des">點此拍照</p><img style="display:block;width:100%;height:100%;" src=""/></div>
+                <br>
 
-            <h3>這餐我吃了什麼</h3>
-            <form class="eatForm">
-                <input type="checkbox" name="check1">五榖根莖<br>
-                <input type="checkbox" name="check2">蛋豆魚肉<br>
-                <input type="checkbox" name="check3">蔬菜<br>
-                <input type="checkbox" name="check4">水果<br>
-                <input type="checkbox" name="check5">奶類<br>
-                <input type="checkbox" name="check6">油脂類<br>
-            </form>
-                <a data-role="button" class="addnewItem">新增選項</a> 
-            <div id='checkbox_here'></div>
-            <br><br>
+                <h3>這餐我吃了什麼</h3>
+                <form class="eatForm">
+                    <input type="checkbox" name="check1">五榖根莖<br>
+                    <input type="checkbox" name="check2">蛋豆魚肉<br>
+                    <input type="checkbox" name="check3">蔬菜<br>
+                    <input type="checkbox" name="check4">水果<br>
+                    <input type="checkbox" name="check5">奶類<br>
+                    <input type="checkbox" name="check6">油脂類<br>
+                </form>
+                    <a data-role="button" class="addnewItem">新增選項</a> 
+                <br><br>
 
-            <h4>備註</h4>
-            <textarea id="extra" cols = "35" rows="5"></textarea><br/><br/>
-            <a data-role="button" class="submit">確定</a> 
-            <a data-role="button" class="reset">清除</a> 
+                <h3>備註：</h3>
+                <textarea  class="form-control"rows="4"></textarea>
+                <div class='btn_container'>
+                        <button data-role="button" class="submit">完成</button>
+                        <button data-role="button" class="reset" >清除</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -602,6 +667,7 @@
         <a data-role="button" data-click="readJson" >upload</a><br>
         <a data-role="button" data-click="syncData" >sync</a><br>
     </div>
+
 
   </body>
 </html>

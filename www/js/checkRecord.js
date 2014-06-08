@@ -84,6 +84,4 @@ function check() {
         reader.readAsText(file);
     }
 }
-
-
    

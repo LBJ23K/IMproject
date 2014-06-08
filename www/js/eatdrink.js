@@ -6,16 +6,57 @@ $(document).ready(function(){
 	})
 	$('#recordHome .large_btn.drink').click(function(){
 		capturePhoto();
-
 	})
 	$('#eatDrink .submit').click(function(){
+		var string = "";
+		if(eatForm.check1.checked) string += "¤­¹ª®Ú²ô,"
+		if(earForm.check2.chccked) string += "³J¨§³½¦×,"
+		if(earForm.check3.chccked) string += "½­µæ,"
+		if(earForm.check4.chccked) string += "¤ôªG,"
+		if(earForm.check5.chccked) string += "¥¤Ãþ,"
+		if(earForm.check6.chccked) string += "ªo¯×Ãþ,"
+		string = string.slice(0, -1); //remove last ','
+		
+		var newDate = new Date();
+        var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
+		var foodComment = $('eatDrink textarea').val();
+		
+		foodData.string = string;
+		foodData.imgPath = imgName;
+		foodData.comment = foodComment;
+		
+		if(globeData.length == 0) {
+			data.date = newDate2;
+			data.diet = [];
+			data.diet.push(foodData);
+			data.medicine = [];
+			data.bloodsugar = [];
+			globeData.push(data);
+		} else {
+			var found = false;
+			for (var i = globeData.length - 1; i >= 0; i--) {
+                if (globeData[i].date == newDate2) {
+                    if (globeData[i].hasOwnProperty("diet")) globeData[i].diet.push(foodData);
+                    else {
+                        globeData[i].diet = [];
+                        globeData[i].diet.push(foodData);
+                    }
+                    found = true;
+                    break;
+                }
+                if (!found) {
+                    data.date = newDate2;
+                    data.diet = [];
+                    data.diet.push(foodData);
+                    data.bloodsugar = [];
+                    data.medicine = [];
+                    globeData.push(data);
+                }
+            }
 
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
-			fileSystem.root.getFile("food.json", {create: true, exclusive: false}, function (fileEntry){
-				fileEntry.createWriter(gotFileWriterForeatDrink, fail);
-			}, fail);
-		}, fail);
-	})
+        }
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS_diet, fail);
+    })
 });
 
 function capturePhoto() {
@@ -27,6 +68,7 @@ function capturePhoto() {
 		destinationType : navigator.camera.DestinationType.FILE_URI
 	});
 }
+
 function onPhotoSuccess(imageURI) {
 	$('#eatDrink .imageShow').show();
 
@@ -41,23 +83,30 @@ function onPhotoSuccess(imageURI) {
     }, fsFail); 
 }
 
-//file system fail 
-function fsFail(error) { 
-    alert("failed with error code: " + error.code); 
+function gotFS_diet(fileSystem) {
+    fileSystem.root.getFile("data.json", {
+        create: true,
+        exclusive: false
+    }, gotFileEntry_diet, fail);
 }
 
-// // called if something bad happens
-// function onFail(message) {
-//     alert('Failed because: ' + message);
-// }
-
-// // write the user input string to the file
-
-
-function gotFileWriterForeatDrink(writer) {
-    writer.write(str);
+function gotFileEntry_diet(fileEntry) {
+    fileEntry.createWriter(gotFileWriter_diet, fail);
 }
 
+function gotFileWriter_diet(writer) {
+
+    writer.onwriteend = function () {
+
+        $('.ok').fadeIn().delay(1500).fadeOut('slow');
+
+        // ÀË¹î¤µ¤Ñ¬O§_¦³¬ö¿ý
+        check();
+    }
+    //convert a value to JSON
+    writer.write(JSON.stringify(globeData));
+
+}
 
 function randomString(length) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
@@ -71,4 +120,8 @@ function randomString(length) {
         str += chars[Math.floor(Math.random() * chars.length)];
     }
     return str;
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
 }
