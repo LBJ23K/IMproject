@@ -1,20 +1,22 @@
-var imgName = '';
+var dietImgURI = '';
 
 $(document).ready(function(){
 	$('#eatDrink .addnewItem').click(function(){
 		$('#eatDrink .eatForm').append('<input type="checkbox"/><input class="newItem" type="text"/><br/>')
-	})
-	$('#recordHome .large_btn.drink').click(function(){
+	});
+
+	$('#eatDrink .eatImage').click(function(){
 		capturePhoto();
-	})
+	});
+
 	$('#eatDrink .submit').click(function(){
 		var string = "";
-		if(eatForm.check1.checked) string += "¤­¹ª®Ú²ô,"
-		if(earForm.check2.chccked) string += "³J¨§³½¦×,"
-		if(earForm.check3.chccked) string += "½­µæ,"
-		if(earForm.check4.chccked) string += "¤ôªG,"
-		if(earForm.check5.chccked) string += "¥¤Ãþ,"
-		if(earForm.check6.chccked) string += "ªo¯×Ãþ,"
+		if(eatForm.check1.checked) string += "五榖根莖,"
+		if(earForm.check2.chccked) string += "蛋豆魚肉,"
+		if(earForm.check3.chccked) string += "蔬菜,"
+		if(earForm.check4.chccked) string += "水果,"
+		if(earForm.check5.chccked) string += "奶類,"
+		if(earForm.check6.chccked) string += "油脂類,"
 		string = string.slice(0, -1); //remove last ','
 		
 		var newDate = new Date();
@@ -22,7 +24,7 @@ $(document).ready(function(){
 		var foodComment = $('eatDrink textarea').val();
 		
 		foodData.string = string;
-		foodData.imgPath = imgName;
+		foodData.imgPath = dietImgURI;
 		foodData.comment = foodComment;
 		
 		if(globeData.length == 0) {
@@ -56,7 +58,7 @@ $(document).ready(function(){
 
         }
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS_diet, fail);
-    })
+    });
 });
 
 function capturePhoto() {
@@ -70,15 +72,20 @@ function capturePhoto() {
 }
 
 function onPhotoSuccess(imageURI) {
-	$('#eatDrink .imageShow').show();
+	$('#eatDrink .eatImage .des').hide();
 
-    $('#eatDrink .imageShow').attr('src',imageURI);
+    $('#eatDrink .eatImage img').attr('src',imageURI);
 	    // resolve file system for image  
     window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
     	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
     		imageName = randomString(5);
     		fileEntry.moveTo(fileSystem.root, imageName+'.jpg', null, null); 
     		app.navigate('#eatDrink');
+            // retrieve uri
+            fileSystem.root.getFile(imageName+'.jpg', {create: false, exclusive: false}, function (fileEntry) {
+                dietImgURI = fileEntry.toURL();
+                alert("imgURI = " + dietImgURI);
+            }, fsFail);
     	}, fsFail);
     }, fsFail); 
 }
@@ -100,7 +107,7 @@ function gotFileWriter_diet(writer) {
 
         $('.ok').fadeIn().delay(1500).fadeOut('slow');
 
-        // ÀË¹î¤µ¤Ñ¬O§_¦³¬ö¿ý
+        // 檢查是否有記錄
         check();
     }
     //convert a value to JSON

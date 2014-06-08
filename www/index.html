@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>糖尿病記錄</title>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <link href="css/Kendo_css/kendo.common.min.css" rel="stylesheet" />
     <link href="css/Kendo_css/kendo.default.min.css" rel="stylesheet" />
@@ -38,7 +38,7 @@
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
 <script>
-    var app= new kendo.mobile.Application($(document.body), {
+    var app = new kendo.mobile.Application($(document.body), {
         platform: "ios7"
     }); 
     var chart = new AmCharts.AmSerialChart();
@@ -78,26 +78,26 @@
 </head>
 <body onload="onBodyLoad()">
 
+    <!-- layout(header&footer) -->
     <div data-role="layout" data-id="app" data-show="triggerIndexButton">
-
     <header data-role="header" id="header_nav">
         <div data-role="navbar">
             <a class="nav-backbtn"  data-align="left" data-role="backbutton">返回</a>
             <span data-role="view-title"></span>
-
         </div>
     </header>
     <footer id = "footer" data-role="footer">
         <div data-role="tabstrip">
             <a data-icon="home" href="#home">首頁</a>
             <a data-icon="compose" href="#recordHome" >記錄</a>
-            <a data-icon="recents" href="#alertHome" >提醒</a>
             <a data-icon="arrow-yo" href="#chart">圖表</a>
             <a data-icon="contacts" href="#">小天使</a>
-            <a data-icon="settings" href="#setting">設定</a
+            <a data-icon="settings" href="#setting">設定</a>
         </div>
     </footer>
     </div>
+
+    <!-- 首頁 -->
     <div data-role="view" data-layout="app" id="home" data-title="首頁" onbeforeprint="check()">
         <!-- 自動檢查今天是否有量血糖/吃藥/飲食紀錄 -->
         <div id="swipe_history">
@@ -107,11 +107,10 @@
                     <i class="fa fa-times"></i>藥物
                 </li>                
             </ul>
-        </div>
-
-        
+        </div>     
     </div>
 
+    <!-- 記錄 -->
     <div data-role="view" data-layout="app" id="recordHome" data-title="記錄">
         <div data-role="touch" data-enable-swipe="1" data-swipe="swipeTohistory.swipe" style="width:100%;height:100%;">
             <a href="#bloodSugar" data-role="button" class="large_btn">血糖</a>
@@ -120,7 +119,16 @@
         </div>
     </div>
 
+    <!-- 歷史記錄 -->
+    <div data-role="view" data-layout="app" id="history" data-title="歷史記錄" data-transition="slide">
+        <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10;">
+            <input id="calendar" />
+            <ul data-role="listview" data-style="inset" data-type="group" class="history-list">         
+            </ul>
+        </div>
+    </div>
 
+    <!-- 血糖記錄 -->
     <div data-role="view" data-layout="app" id="bloodSugar" data-title="血糖記錄" 
     data-transition="slide" >
         <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10">
@@ -151,35 +159,20 @@
             </div>
         </div>
     </div>
-    <div data-role="view" data-layout="app" id="history" data-title="記錄歷史" data-transition="slide">
-        <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10;">
-            <input id="calendar" />
-            <ul data-role="listview" data-style="inset" data-type="group" class="history-list">
-         
-            </ul>
-        </div>
-        
-    </div>
+    
+    <!-- 圖表 -->
     <div data-role="view" data-layout="app" id="chart" data-title="圖表">
         <div id="chartdiv" style="width: 100%; height: 70%;"></div>
         <h1 class='error' style='display:none;position:absolute;top:40%;left:50%;margin-left:-69px;opacity:0.7;'>No Data</h1>
     </div>
 
-    <!-- 歷史紀錄 -->
-    <div data-role="view" data-layout="app" id="alertHome" data-title="提醒">
-
-    </div>
-
-    <!-- 新增藥物紀錄 -->
+    <!-- 藥物紀錄 -->
     <div data-role="view" data-layout="app" id="medRecord" data-title="藥物紀錄" data-transition="slide">
         <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10">
             <div class='med_main'>
                 <div class="medImage"><p class="des">點此拍照</p><img style="display:block;width:100%;height:100%;" src=""/></div>
                 <label>藥物名稱:
                     <select class="medName" id="medSelect">
-                        <option>medicine1</option>
-                        <option>medicine2</option>
-                        <option>medicine3</option>
                     </select>
                 </label>
 
@@ -224,6 +217,7 @@
         <a data-role="button" href="#:back">取消</a>
     </div>
 
+    <!-- 飲食記錄 -->
     <div data-role="view" data-layout="app" id="eatDrink" data-title="飲食記錄" 
     data-transition="slide" >
         <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10">

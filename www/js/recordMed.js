@@ -96,7 +96,7 @@ function gotFileWriter2(writer) {
     writer.onwriteend = function () {
         alert('done');
 
-         $.blockUI({ css: { 
+        $.blockUI({ css: { 
             border: 'none', 
             padding: '5px', 
             backgroundColor: 'rgba(0,0,0,0.6)', 
@@ -106,7 +106,7 @@ function gotFileWriter2(writer) {
             },
             message:"<h2>Finish!!</h2>"
         
-            }); 
+        }); 
         check();
     }
 
@@ -115,21 +115,34 @@ function gotFileWriter2(writer) {
 }
 
 // 照相
-function medPhoto() {
-    navigator.camera.getPicture(onPhotoURISuccessmed, onFail, { 
-        quality: 50,
-        destinationType: navigator.camera.DestinationType.FILE_URI
-    });    
+function capturePhotoForMed(){
+    navigator.camera.getPicture(onPhotoSuccessMed, function(message) {
+        alert('照相失敗!');
+    }, {
+        quality : 40,
+        destinationType : navigator.camera.DestinationType.FILE_URI
+    });
 }
 
-// Called when a photo is successfully retrieved
-function onPhotoURISuccessmed(imageURI) {
-    // Get image handle
-    var displayImage = document.getElementById('medImage');
+function onPhotoSuccessMed(imageURI) {
+    $('#medRecord .medImage .des').hide();
+    $('#medRecord .medImage img').attr('src',imageURI);
+        // resolve file system for image  
+    window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
+            var imageName = randomString(5);
+            fileEntry.moveTo(fileSystem.root, imageName+'.jpg', null, null);
+            // retrieve uri
+            fileSystem.root.getFile(imageName+'.jpg', {create: false, exclusive: false}, function (fileEntry) {
+                imgURI = fileEntry.toURL();
+                alert("imgURI = " + imgURI);
+            }, fsFail);
+        }, fsFail);
+    }, fsFail);
+}
 
-    // Show the captured photo
-    displayImage.src = imageURI;
-    imgURI = imageURI;          
+function fsFail(error) { 
+    alert("failed with error code: " + error.code); 
 }
 
 // Called if something bad happens.
