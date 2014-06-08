@@ -59,6 +59,13 @@ $(document).ready(function () {
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     })
 
+    $('#medRecord td').click(function(){
+        $('#medRecord td').each(function(){
+            $(this).removeClass('active');
+        });
+        $(this).addClass('active');
+    });
+
     $('#medRecord .medImage').click(function(){
         capturePhotoForMed();
     })
@@ -102,7 +109,7 @@ function gotFileWriter2(writer) {
             }); 
         check();
     }
-    
+
     writer.write(JSON.stringify(globeData));
 
 }

@@ -9,49 +9,57 @@ var userToken = '';
 function generateToken() {
 	userToken = token(); // example "bnh5yzdirjinqaor", 16 characters
 
-    $.post("http://140.112.106.105/gundam/generateToken.php", 
+    $.post("http://140.112.106.105/diabetic/generateToken.php", 
     { 
         uid: userID,
         token: userToken
     },
     
     function(data){
-        alert(data);
         displayDeviceToken();
     });
-
-
 }
 
 function displayDeviceToken() {
-    $.post("http://140.112.106.105/gundam/getToken.php", 
+    $.post("http://140.112.106.105/diabetic/getToken.php", 
     { 
         uid: userID
     },
     
     function(data){
-        alert(data);
+        alert("驗證碼是 " + data);
     });
 }
 
-function changeID() {
+function checkToken() {
     userToken = $('#inputToken').val();
 
-    $.post("http://140.112.106.105/gundam/checkToken.php", 
+    $.post("http://140.112.106.105/diabetic/checkToken.php", 
     { 
         token: userToken
     },
     
     function(data){
         userID = data;
-        alert("userid = "+ userID);
+        changeID(userID);
+    });
+}
 
+function changeID(id) {
+    $.post("http://140.112.106.105/diabetic/changeID.php", 
+    { 
+        uid: userID,
+        did: deviceID
+    },
+    
+    function(data){
+        userID = data;
+        changeID(userID);
     });
 }
 
 function syncData() {
-alert("click");
-    $.post("http://140.112.106.105/gundam/syncMed.php", 
+    $.post("http://140.112.106.105/diabetic/syncMed.php", 
     { 
         uid: userID
     },
@@ -60,7 +68,7 @@ alert("click");
         syncMed(JSON.parse(data));
     });
 
-    $.post("http://140.112.106.105/gundam/syncBloodsugar.php", 
+    $.post("http://140.112.106.105/diabetic/syncBloodsugar.php", 
     { 
         uid: userID
     },
@@ -71,14 +79,11 @@ alert("click");
 }
 
 function syncMed(serverData) {
-alert("medsync");
     //serverData的物件數
     var num = serverData.length;
-    alert("mednum = " +num);
 
     for( var m = 0; m < num; m++ )
     {
-    alert("m = "+ m);
         var medName = serverData[m]["med_name"];
         var medTime = serverData[m]["med_mealtype"];
         var newDate2 = serverData[m]["med_date"];
@@ -122,7 +127,6 @@ alert("medsync");
         }
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSmedsync, fail);
     }
-        
 }
 
 function gotFSmedsync(fileSystem) {
@@ -137,7 +141,6 @@ function gotFileEntrymedsync(fileEntry) {
 }
 
 function gotFileWritermedsync(writer) {
-alert("write med");
 
     writer.onwriteend = function () {
 
@@ -148,18 +151,14 @@ alert("write med");
     }
     //convert a value to JSON
     writer.write(JSON.stringify(jsonData));
-
 }
 
 function syncBloodsugar(serverData) {
-alert("bssync");
     //serverData的物件數
     var num = serverData.length;
-    alert("bsnum = " +num);
 
     for( var n = 0; n < num; n++ )
     {
-    alert("n = "+ n);
         var bloodsugarData = {};
         var bloodsugarDataWithdate = {};
         var bloodsugar = serverData[n]["value"];
@@ -213,7 +212,7 @@ alert("bssync");
             }
            
         }
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSbssync, fail );
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSbssync, fail );
     }
 }
 
@@ -226,7 +225,6 @@ function gotFileEntrybssync(fileEntry) {
 }
 
 function gotFileWriterbssync(writer) {
-alert("write bs");
     writer.onwriteend = function(evt) {
         $('.ok').fadeIn().delay(1500).fadeOut('slow');
         if( $('#chart .error').css('display') == 'block'){
@@ -234,12 +232,11 @@ alert("write bs");
             $('#chart .error').css('display','none');
         }
         else{
-                
+            //
         }
 
         check();
     }
 
     writer.write( JSON.stringify(jsonData) );
-
 }

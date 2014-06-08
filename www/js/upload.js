@@ -1,7 +1,6 @@
 var jsonString = '';
 
 function uploadJson() {
-alert("upload");
     var myData = JSON.parse(jsonString);
 
     if (myData != '' || myData != undefined) {
@@ -18,7 +17,7 @@ alert("upload");
             // 傳送medicine 的資料
             for( var j = 0; j < medNum; j++ )
             {
-                $.post("http://140.112.106.105/gundam/uploadMed.php", 
+                $.post("http://140.112.106.105/diabetic/uploadMed.php", 
                 { 
                     date: myData[i].date,
                     name: myData[i].medicine[j].medname,
@@ -28,14 +27,14 @@ alert("upload");
                     id: userID
                 },
                 function(data){
-                    alert(data);
+                    //
                 });
             }
 
             // 傳送bloodsugar 的資料
             for( var k = 0; k < bsNum; k++ )
             {
-                $.post("http://140.112.106.105/gundam/uploadBs.php", 
+                $.post("http://140.112.106.105/diabetic/uploadBs.php", 
                 { 
                     date: myData[i].date,
                     mealtype: myData[i].bloodsugar[k].mealtype,
@@ -44,14 +43,14 @@ alert("upload");
                     id: userID
                 },
                 function(data){
-                    alert(data);
+                    //
                 });
             }
 
             // 傳送diet 的資料
             for( var l = 0; l < dietNum; l++ )
             {
-                $.post("http://140.112.106.105/gundam/uploadDiet.php", 
+                $.post("http://140.112.106.105/diabetic/uploadDiet.php", 
                 { 
                     date: myData[i].date,
                     mealtype: myData[i].diet[l].type,
@@ -60,10 +59,12 @@ alert("upload");
                     id: userID
                 },
                 function(data){
-                    alert(data);
+                    //
                 });
             }
         }
+
+        alert("上傳成功!");
     } 
     else {
         alert("myData fail!");
@@ -88,7 +89,6 @@ function gotFilejson(file){
 }
 
 function readAsTextjson(file) {
-alert("click");
     var reader = new FileReader();
 
     //asnycrhonous task has finished, fire the event:
