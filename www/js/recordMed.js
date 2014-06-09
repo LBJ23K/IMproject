@@ -1,4 +1,4 @@
-var imgURI = '';
+var medImgURI = '';
 
 $(document).ready(function () {
     $('#medRecord .submit').click(function () {
@@ -11,7 +11,7 @@ $(document).ready(function () {
         
         medData.medname = medName;
         medData.mealtype = medTime;
-        medData.imgPath = imgURI;
+        medData.imgPath = medImgURI;
         medData.comment = medComment;
 
         if (globeData.length == 0) {
@@ -94,7 +94,6 @@ function gotFileEntry(fileEntry) {
 function gotFileWriter2(writer) {
 
     writer.onwriteend = function () {
-        alert('done');
 
         $.blockUI({ css: { 
             border: 'none', 
@@ -106,7 +105,8 @@ function gotFileWriter2(writer) {
             },
             message:"<h2>Finish!!</h2>"
         
-        }); 
+        });
+        // 檢查是否有記錄
         check();
     }
 
@@ -127,18 +127,19 @@ function capturePhotoForMed(){
 function onPhotoSuccessMed(imageURI) {
     $('#medRecord .medImage .des').hide();
     $('#medRecord .medImage img').attr('src',imageURI);
-        // resolve file system for image  
+    // resolve file system for image  
     window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
-            var imageName = randomString(5);
-            fileEntry.moveTo(fileSystem.root, imageName+'.jpg', null, null);
-            // retrieve uri
-            fileSystem.root.getFile(imageName+'.jpg', {create: false, exclusive: false}, function (fileEntry) {
-                imgURI = fileEntry.toURL();
-                alert("imgURI = " + imgURI);
-            }, fsFail);
+            var medImgName = randomString(5);
+            medImgName = medImgName + '.jpg';
+            fileEntry.moveTo(fileSystem.root, medImgName, getMedURI, fsFail);
         }, fsFail);
     }, fsFail);
+}
+
+function getMedURI(fileEntry) {
+    // retrieve uri
+    medImgURI = fileEntry.toURL();
 }
 
 function fsFail(error) { 

@@ -27,7 +27,8 @@
     <script src="js/recordMed.js"></script>
     <script src="js/createMed.js"></script>
     <script src="js/register.js"></script>
-    <script src="js/deviceChange.js"></script>    
+    <script src="js/deviceChange.js"></script>
+    <script src="js/createFood.js"></script>
 
     <script src="js/lib/Kendo_js/kendo.all.min.js"></script>
 
@@ -61,7 +62,8 @@
         // run background
         window.plugin.backgroundMode.enable();
         // 載入藥物名稱
-        loadMedName();        
+        loadMedName();
+        loadFoodName();
     }
 
     // device APIs are available
@@ -225,16 +227,16 @@
                 <div class="eatImage"><p class="des">點此拍照</p><img style="display:block;width:100%;height:100%;" src=""/></div>
                 <br>
 
-                <h3>這餐我吃了什麼</h3>
-                <form class="eatForm">
-                    <input type="checkbox" name="check1">五榖根莖<br>
-                    <input type="checkbox" name="check2">蛋豆魚肉<br>
-                    <input type="checkbox" name="check3">蔬菜<br>
-                    <input type="checkbox" name="check4">水果<br>
-                    <input type="checkbox" name="check5">奶類<br>
-                    <input type="checkbox" name="check6">油脂類<br>
+                <h3>這餐我吃了什麼?</h3>
+                <form class="eatForm" id="foodCheckbox">
+                    <input type="checkbox" name="foodCheck[]" value="五榖根莖">五榖根莖<br>
+                    <input type="checkbox" name="foodCheck[]" value="蛋豆魚肉">蛋豆魚肉<br>
+                    <input type="checkbox" name="foodCheck[]" value="蔬菜">蔬菜<br>
+                    <input type="checkbox" name="foodCheck[]" value="水果">水果<br>
+                    <input type="checkbox" name="foodCheck[]" value="奶類">奶類<br>
+                    <input type="checkbox" name="foodCheck[]" value="油脂類">油脂類<br>
                 </form>
-                    <a data-role="button" class="addnewItem">新增選項</a> 
+                    <a data-role="button" data-rel="modalview" href="#createFood">新增食物</a>
                 <br><br>
 
                 <h3>備註：</h3>
@@ -245,6 +247,23 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- 新增食物選項的小視窗 -->
+    <div data-role="modalview" id="createFood" style="width: 90%;">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span>新增食物</span>
+            </div>
+        </div>
+
+        <ul data-role="listview" data-style="inset">
+            <label>食物類別
+                <input type="text" id="userFood" />
+            </label>
+        </ul>
+        <a data-role="button" data-click="newFood" >確定</a>
+        <a data-role="button" href="#:back">取消</a>
     </div>
 
     <!-- 設定 -->

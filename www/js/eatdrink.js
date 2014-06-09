@@ -1,29 +1,33 @@
 var dietImgURI = '';
 
 $(document).ready(function(){
-	$('#eatDrink .addnewItem').click(function(){
-		$('#eatDrink .eatForm').append('<input type="checkbox"/><input class="newItem" type="text"/><br/>')
-	});
-
 	$('#eatDrink .eatImage').click(function(){
 		capturePhoto();
 	});
 
 	$('#eatDrink .submit').click(function(){
-		var string = "";
-		if(eatForm.check1.checked) string += "五榖根莖,"
-		if(earForm.check2.chccked) string += "蛋豆魚肉,"
-		if(earForm.check3.chccked) string += "蔬菜,"
-		if(earForm.check4.chccked) string += "水果,"
-		if(earForm.check5.chccked) string += "奶類,"
-		if(earForm.check6.chccked) string += "油脂類,"
-		string = string.slice(0, -1); //remove last ','
-		
+    alert("click");
+		var foodString = "";
+
+        $('input[name="foodCheck[]"]').each(function () {
+            if (this.checked)
+            {
+                if (foodString === '')
+                {
+                    foodString = $(this).val();
+                }
+                else
+                {
+                    foodString = foodString + ',' + $(this).val();
+                }
+            }
+        });
+
 		var newDate = new Date();
         var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
 		var foodComment = $('eatDrink textarea').val();
 		
-		foodData.string = string;
+		foodData.string = foodString;
 		foodData.imgPath = dietImgURI;
 		foodData.comment = foodComment;
 		
@@ -57,6 +61,19 @@ $(document).ready(function(){
             }
 
         }
+
+        $.blockUI({ css: { 
+            border: 'none', 
+            padding: '5px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: '0.5',
+            color: '#fff' 
+            },
+            message:"<h2>Processing...</h2>"       
+        }); 
+
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS_diet, fail);
     });
 });
@@ -75,19 +92,20 @@ function onPhotoSuccess(imageURI) {
 	$('#eatDrink .eatImage .des').hide();
 
     $('#eatDrink .eatImage img').attr('src',imageURI);
-	    // resolve file system for image  
+	// resolve file system for image  
     window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
     	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
-    		imageName = randomString(5);
-    		fileEntry.moveTo(fileSystem.root, imageName+'.jpg', null, null); 
-    		app.navigate('#eatDrink');
-            // retrieve uri
-            fileSystem.root.getFile(imageName+'.jpg', {create: false, exclusive: false}, function (fileEntry) {
-                dietImgURI = fileEntry.toURL();
-                alert("imgURI = " + dietImgURI);
-            }, fsFail);
+    		var foodImageName = randomString(5);
+            foodImageName = foodImageName + '.jpg';
+    		fileEntry.moveTo(fileSystem.root, foodImageName, getDietURI, fsFail); 
+    		//app.navigate('#eatDrink');
     	}, fsFail);
     }, fsFail); 
+}
+
+function getDietURI(fileEntry) {
+    // retrieve uri
+    dietImgURI = fileEntry.toURL();
 }
 
 function gotFS_diet(fileSystem) {
@@ -105,11 +123,18 @@ function gotFileWriter_diet(writer) {
 
     writer.onwriteend = function () {
 
-        $('.ok').fadeIn().delay(1500).fadeOut('slow');
-
-        // 檢查是否有記錄
-        check();
+        $.blockUI({ css: { 
+            border: 'none', 
+            padding: '5px', 
+            backgroundColor: 'rgba(0,0,0,0.6)', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            color: '#fff' 
+            },
+            message:"<h2>Finish!!</h2>"
+        });
     }
+
     //convert a value to JSON
     writer.write(JSON.stringify(globeData));
 

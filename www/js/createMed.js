@@ -1,44 +1,44 @@
-var newName = '';
-var nameArray = '';
+var newMedName = '';
+var medNameArray = [];
 
 // 新增藥物名稱
 function newMed() {
-    newName = $('#userMed').val();
+    newMedName = $('#userMed').val();
 
     var mySelect = document.getElementById("medSelect");
 	var option = document.createElement("option");
-	option.text = newName;
+	option.text = newMedName;
 	mySelect.add( option );
 
-	saveName();
+	saveMedName();
 }
 
 // 將新增的藥物名稱儲存在檔案
-function saveName() {
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSname, fail);
+function saveMedName() {
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSmedname, fail);
 }
 
-function gotFSname(fileSystem) {
+function gotFSmedname(fileSystem) {
     fileSystem.root.getFile("medName.txt", 
-                            {create: true, exclusive: false}, 
-                            gotFileEntryname, fail);
+        {create: true, exclusive: false}, 
+        gotFileEntrymedname, fail);
 }
 
-function gotFileEntryname(fileEntry) {
-    fileEntry.createWriter(gotFileWritername, fail);
+function gotFileEntrymedname(fileEntry) {
+    fileEntry.createWriter(gotFileWritermedname, fail);
 }
 
-function gotFileWritername(writer) {
+function gotFileWritermedname(writer) {
     if( writer.length === 0 )
     {
-    	writer.write(newName);
+    	writer.write(newMedName);
     }
     else
     {
-    	// write newName
+    	// write newMedName
         writer.onwriteend = function(evt) {
             writer.seek(writer.length);
-            writer.write(newName);
+            writer.write(newMedName);
                 writer.onwriteend = function(evt){
                     console.log("write successfully");
                 }
@@ -52,44 +52,44 @@ function gotFileWritername(writer) {
 
 // 載入藥物名稱檔案
 function loadMedName() {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSname2, fail);
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSmedname2, fail);
 }
 
-function gotFSname2(fileSystem) {
-    fileSystem.root.getFile("medName.txt", null, gotFileEntryname2, fail);
+function gotFSmedname2(fileSystem) {
+    fileSystem.root.getFile("medName.txt", null, gotFileEntrymedname2, fail);
 }
 
-function gotFileEntryname2(fileEntry) {
-    fileEntry.file(gotFilename, fail);
+function gotFileEntrymedname2(fileEntry) {
+    fileEntry.file(gotFilemedname, fail);
 }
 
-function gotFilename(file){
-    readAsTextname(file);
+function gotFilemedname(file){
+    readAsTextmedname(file);
 }
 
-function readAsTextname(file) {
+function readAsTextmedname(file) {
     var reader = new FileReader();
 
     //asnycrhonous task has finished, fire the event:
     reader.onloadend = function(evt) {
         //assign the data to the global var
-        nameArray = evt.target.result.split(',');
+        medNameArray = evt.target.result.split(',');
         //upload json data
-        updateSelect();
+        updateMedSelect();
     };
     reader.readAsText(file); 
 
 }
 
 // 更新藥物名稱選項
-function updateSelect() {
+function updateMedSelect() {
     var i = 0;
 
-    while ( typeof(nameArray[i]) !== "undefined" )
+    while ( typeof(medNameArray[i]) !== "undefined" )
     {
         var mySelect = document.getElementById("medSelect");
         var option = document.createElement("option");
-        option.text = nameArray[i];
+        option.text = medNameArray[i];
         mySelect.add( option );
 
         i = i + 1;
