@@ -1,3 +1,4 @@
+var medData = {};
 var medImgURI = '';
 
 $(document).ready(function () {

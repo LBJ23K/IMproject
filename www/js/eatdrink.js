@@ -1,3 +1,4 @@
+var dietData = {};
 var dietImgURI = '';
 
 $(document).ready(function(){
@@ -25,16 +26,16 @@ $(document).ready(function(){
 
 		var newDate = new Date();
         var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
-		var foodComment = $('eatDrink textarea').val();
+		var foodComment = $('#eatDrink textarea').val();
 		
-		foodData.string = foodString;
-		foodData.imgPath = dietImgURI;
-		foodData.comment = foodComment;
-		
+		dietData.foodType = foodString;
+		dietData.imgPath = dietImgURI;
+		dietData.comment = foodComment;
+		alert("ready if");
 		if(globeData.length == 0) {
 			data.date = newDate2;
 			data.diet = [];
-			data.diet.push(foodData);
+			data.diet.push(dietData);
 			data.medicine = [];
 			data.bloodsugar = [];
 			globeData.push(data);
@@ -42,10 +43,10 @@ $(document).ready(function(){
 			var found = false;
 			for (var i = globeData.length - 1; i >= 0; i--) {
                 if (globeData[i].date == newDate2) {
-                    if (globeData[i].hasOwnProperty("diet")) globeData[i].diet.push(foodData);
+                    if (globeData[i].hasOwnProperty("diet")) globeData[i].diet.push(dietData);
                     else {
                         globeData[i].diet = [];
-                        globeData[i].diet.push(foodData);
+                        globeData[i].diet.push(dietData);
                     }
                     found = true;
                     break;
@@ -53,7 +54,7 @@ $(document).ready(function(){
                 if (!found) {
                     data.date = newDate2;
                     data.diet = [];
-                    data.diet.push(foodData);
+                    data.diet.push(dietData);
                     data.bloodsugar = [];
                     data.medicine = [];
                     globeData.push(data);
@@ -61,6 +62,7 @@ $(document).ready(function(){
             }
 
         }
+        alert("endif");
 
         $.blockUI({ css: { 
             border: 'none', 
@@ -109,6 +111,7 @@ function getDietURI(fileEntry) {
 }
 
 function gotFS_diet(fileSystem) {
+alert("call diet");
     fileSystem.root.getFile("data.json", {
         create: true,
         exclusive: false
