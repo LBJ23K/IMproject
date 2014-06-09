@@ -7,7 +7,6 @@ $(document).ready(function(){
 	});
 
 	$('#eatDrink .submit').click(function(){
-    alert("click");
 		var foodString = "";
 
         $('input[name="foodCheck[]"]').each(function () {
@@ -31,7 +30,7 @@ $(document).ready(function(){
 		dietData.foodType = foodString;
 		dietData.imgPath = dietImgURI;
 		dietData.comment = foodComment;
-		alert("ready if");
+
 		if(globeData.length == 0) {
 			data.date = newDate2;
 			data.diet = [];
@@ -62,7 +61,6 @@ $(document).ready(function(){
             }
 
         }
-        alert("endif");
 
         $.blockUI({ css: { 
             border: 'none', 
@@ -111,7 +109,6 @@ function getDietURI(fileEntry) {
 }
 
 function gotFS_diet(fileSystem) {
-alert("call diet");
     fileSystem.root.getFile("data.json", {
         create: true,
         exclusive: false
