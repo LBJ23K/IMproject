@@ -53,8 +53,7 @@ function changeID(id) {
     },
     
     function(data){
-        userID = data;
-        changeID(userID);
+        //
     });
 }
 

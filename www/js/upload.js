@@ -17,6 +17,8 @@ function uploadJson() {
             // 傳送medicine 的資料
             for( var j = 0; j < medNum; j++ )
             {
+                //imgUpload(myData[i].medicine[j].imgPath);
+
                 $.post("http://140.112.106.105/diabetic/uploadMed.php", 
                 { 
                     date: myData[i].date,
@@ -102,4 +104,22 @@ function readAsTextjson(file) {
 
 }
 
+/*function imgUpload(imgURI) {
+    var options = new FileUploadOptions();
+    options.fileKey = "file";
+    options.fileName = imgURI.substr(imgURI.lastIndexOf('/')+1);
+    options.mimeType = "image/jpeg";
 
+    imgPath = "http://140.112.106.105/gundam/img/" + options.fileName + ".jpg";
+
+    var ft = new FileTransfer();
+    ft.upload(imgURI, encodeURI("http://140.112.106.105/gundam/img_up.php"), win, fail, options);
+}
+
+function win(r) {
+
+}
+
+function fail(error) {
+    alert("An error has occurred: Code = " + error.code);
+}*/
