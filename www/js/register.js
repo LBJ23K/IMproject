@@ -5,6 +5,7 @@ function autoRegister() {
     },
     
     function(data){
+        alert(data);
         getID();
     });
 }
