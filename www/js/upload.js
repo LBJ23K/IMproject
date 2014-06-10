@@ -25,6 +25,7 @@ function uploadJson() {
                     name: myData[i].medicine[j].medname,
                     mealtype: myData[i].medicine[j].mealtype,
                     imgPath: myData[i].medicine[j].imgPath,
+                    imgName: myData[i].medicine[j].imgName,
                     comment: myData[i].medicine[j].comment,
                     id: userID
                 },
@@ -56,7 +57,8 @@ function uploadJson() {
                 { 
                     date: myData[i].date,
                     foodtype: myData[i].diet[l].foodType,
-                    img: myData[i].diet[l].imgPath,
+                    imgPath: myData[i].diet[l].imgPath,
+                    imgName: myData[i].diet[l].imgName,
                     comment: myData[i].diet[l].comment,
                     id: userID
                 },

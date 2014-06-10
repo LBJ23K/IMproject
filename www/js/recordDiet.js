@@ -1,5 +1,6 @@
 var dietData = {};
 var dietImgURI = '';
+var foodImageName = '';
 
 $(document).ready(function(){
 	$('#eatDrink .eatImage').click(function(){
@@ -29,6 +30,7 @@ $(document).ready(function(){
 		
 		dietData.foodType = foodString;
 		dietData.imgPath = dietImgURI;
+        dietData.imgName = foodImageName;
 		dietData.comment = foodComment;
 
 		if(globeData.length == 0) {
@@ -95,7 +97,7 @@ function onPhotoSuccess(imageURI) {
 	// resolve file system for image  
     window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
     	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
-    		var foodImageName = randomString(5);
+    		foodImageName = randomString(5);
             foodImageName = foodImageName + '.jpg';
     		fileEntry.moveTo(fileSystem.root, foodImageName, getDietURI, fsFail); 
     		//app.navigate('#eatDrink');

@@ -1,5 +1,6 @@
 var medData = {};
 var medImgURI = '';
+var medImgName = '';
 
 $(document).ready(function () {
     $('#medRecord .submit').click(function () {
@@ -13,6 +14,7 @@ $(document).ready(function () {
         medData.medname = medName;
         medData.mealtype = medTime;
         medData.imgPath = medImgURI;
+        medData.imgName = medImgName;
         medData.comment = medComment;
 
         if (globeData.length == 0) {
@@ -131,7 +133,7 @@ function onPhotoSuccessMed(imageURI) {
     // resolve file system for image  
     window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
-            var medImgName = randomString(5);
+            medImgName = randomString(5);
             medImgName = medImgName + '.jpg';
             fileEntry.moveTo(fileSystem.root, medImgName, getMedURI, fsFail);
         }, fsFail);
