@@ -1,4 +1,6 @@
 var jsonString = '';
+var serverMedImgPath = '';
+var serverDietImgPath = '';
 
 function uploadJson() {
     var myData = JSON.parse(jsonString);
@@ -17,20 +19,21 @@ function uploadJson() {
             // 傳送medicine 的資料
             for( var j = 0; j < medNum; j++ )
             {
-                //imgUpload(myData[i].medicine[j].imgPath);
+                // 傳送照片
+                medImgUpload(myData[i].medicine[j].imgPath, myData[i].medicine[j].imgName);
 
                 $.post("http://140.112.106.105/diabetic/uploadMed.php", 
                 { 
                     date: myData[i].date,
                     name: myData[i].medicine[j].medname,
                     mealtype: myData[i].medicine[j].mealtype,
-                    imgPath: myData[i].medicine[j].imgPath,
+                    imgPath: serverMedImgPath,
                     imgName: myData[i].medicine[j].imgName,
                     comment: myData[i].medicine[j].comment,
                     id: userID
                 },
                 function(data){
-                    //
+                    alert(serverMedImgPath);
                 });
             }
 
@@ -53,11 +56,14 @@ function uploadJson() {
             // 傳送diet 的資料
             for( var l = 0; l < dietNum; l++ )
             {
+                // 傳送照片
+                dietImgUpload(myData[i].diet[l].imgPath, myData[i].diet[l].imgName);
+
                 $.post("http://140.112.106.105/diabetic/uploadDiet.php", 
                 { 
                     date: myData[i].date,
                     foodtype: myData[i].diet[l].foodType,
-                    imgPath: myData[i].diet[l].imgPath,
+                    imgPath: serverDietImgPath,
                     imgName: myData[i].diet[l].imgName,
                     comment: myData[i].diet[l].comment,
                     id: userID
@@ -106,22 +112,36 @@ function readAsTextjson(file) {
 
 }
 
-/*function imgUpload(imgURI) {
+function medImgUpload(imgURI, imgName) {
     var options = new FileUploadOptions();
     options.fileKey = "file";
-    options.fileName = imgURI.substr(imgURI.lastIndexOf('/')+1);
+    options.fileName = imgName;
     options.mimeType = "image/jpeg";
 
-    imgPath = "http://140.112.106.105/gundam/img/" + options.fileName + ".jpg";
+    serverMedImgPath = "http://140.112.106.105/diabetic/img/" + options.fileName;
 
     var ft = new FileTransfer();
-    ft.upload(imgURI, encodeURI("http://140.112.106.105/gundam/img_up.php"), win, fail, options);
+    ft.upload(imgURI, encodeURI("http://140.112.106.105/diabetic/medImg.php"), win, fail, options);
+}
+
+function dietImgUpload(imgURI, imgName) {
+    var options = new FileUploadOptions();
+    options.fileKey = "file";
+    options.fileName = imgName;
+    options.mimeType = "image/jpeg";
+
+    serverDietImgPath = "http://140.112.106.105/diabetic/img/" + options.fileName;
+
+    var ft = new FileTransfer();
+    ft.upload(imgURI, encodeURI("http://140.112.106.105/diabetic/dietImg.php"), win, fail, options);
 }
 
 function win(r) {
-
+    //alert("Code = " + r.responseCode);
+    //alert("Response = " + r.response);
+    //alert("Sent = " + r.bytesSent);
 }
 
-function fail(error) {
+function lose(error) {
     alert("An error has occurred: Code = " + error.code);
-}*/
+}

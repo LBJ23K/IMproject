@@ -135,6 +135,7 @@ function gotFileWriter_diet(writer) {
             },
             message:"<h2>Finish!!</h2>"
         });
+        setTimeout($.unblockUI, 2000);
     }
 
     //convert a value to JSON

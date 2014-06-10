@@ -1,9 +1,9 @@
-var medData = {};
 var medImgURI = '';
 var medImgName = '';
 
 $(document).ready(function () {
     $('#medRecord .submit').click(function () {
+        var medData = {};
 
         var medName = $('#medRecord .medName :selected').text();
         var medTime = $('#medRecord td.active').text();
@@ -109,6 +109,7 @@ function gotFileWriter2(writer) {
             message:"<h2>Finish!!</h2>"
         
         });
+        setTimeout($.unblockUI, 2000);
         // 檢查是否有記錄
         check();
     }

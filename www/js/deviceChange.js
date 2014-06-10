@@ -66,17 +66,17 @@ function syncData() {
     
     function(data){
         syncMed(JSON.parse(data));
-    });
 
-    $.post("http://140.112.106.105/diabetic/syncBloodsugar.php", 
-    { 
-        uid: userID
-    },
+        $.post("http://140.112.106.105/diabetic/syncBloodsugar.php", 
+        { 
+            uid: userID
+        },
     
-    function(data){
-        syncBloodsugar(JSON.parse(data));
+        function(data){
+            syncBloodsugar(JSON.parse(data));
+        });
+        alert("同步完成!");
     });
-    alert("同步完成!");
 }
 
 function syncMed(serverData) {
@@ -85,11 +85,12 @@ function syncMed(serverData) {
 
     for( var m = 0; m < num; m++ )
     {
+        var medData = {};
         var medName = serverData[m]["med_name"];
         var medTime = serverData[m]["med_mealtype"];
         var newDate2 = serverData[m]["med_date"];
         var medComment = serverData[m]["med_comment"];
-        var imgURI = 'test';
+        var imgURI = serverData[m]["med_img"];
         
         medData.medname = medName;
         medData.mealtype = medTime;
@@ -124,7 +125,6 @@ function syncMed(serverData) {
                     jsonData.push(data);
                 }
             }
-
         }
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSmedsync, fail);
     }
@@ -201,17 +201,15 @@ function syncBloodsugar(serverData) {
                     found = true;
                     break;
                 }
-            if(!found){
-                data.date = newDate2;
-                data.medicine = [];
-                data.bloodsugar = [];
-                data.bloodsugar.push( bloodsugarData );
-                data.diet = [];
-                jsonData.push( data );
-            }    
-                
+                if(!found){
+                    data.date = newDate2;
+                    data.medicine = [];
+                    data.bloodsugar = [];
+                    data.bloodsugar.push( bloodsugarData );
+                    data.diet = [];
+                    jsonData.push( data );
+                }
             }
-           
         }
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSbssync, fail );
     }
