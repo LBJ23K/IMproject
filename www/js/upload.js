@@ -55,8 +55,8 @@ function uploadJson() {
                 $.post("http://140.112.106.105/diabetic/uploadDiet.php", 
                 { 
                     date: myData[i].date,
-                    mealtype: myData[i].diet[l].type,
-                    img: myData[i].diet[l].photo,
+                    foodtype: myData[i].diet[l].foodType,
+                    img: myData[i].diet[l].imgPath,
                     comment: myData[i].diet[l].comment,
                     id: userID
                 },

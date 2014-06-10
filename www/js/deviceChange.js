@@ -16,6 +16,7 @@ function generateToken() {
     },
     
     function(data){
+        alert(data);
         displayDeviceToken();
     });
 }
@@ -27,7 +28,7 @@ function displayDeviceToken() {
     },
     
     function(data){
-        alert("驗證碼是 " + data);
+        document.getElementById('myToken').innerHTML = "我的驗證碼: " + data;
     });
 }
 
@@ -53,7 +54,7 @@ function changeID(id) {
     },
     
     function(data){
-        //
+        alert(data);
     });
 }
 
@@ -75,6 +76,7 @@ function syncData() {
     function(data){
         syncBloodsugar(JSON.parse(data));
     });
+    alert("同步完成!");
 }
 
 function syncMed(serverData) {

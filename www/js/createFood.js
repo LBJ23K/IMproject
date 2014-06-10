@@ -10,6 +10,7 @@ function newFood() {
     );
 
 	saveFoodName();
+    closeModalViewDiet();
 }
 
 // 將新增的藥物名稱儲存在檔案
@@ -94,3 +95,6 @@ function updateFoodCheckbox() {
     }
 }
 
+function closeModalViewDiet() {
+    $("#createFood").kendoMobileModalView("close");
+}

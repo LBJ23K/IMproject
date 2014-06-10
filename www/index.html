@@ -91,7 +91,7 @@
             <a data-icon="home" href="#home">首頁</a>
             <a data-icon="compose" href="#recordHome" >記錄</a>
             <a data-icon="arrow-yo" href="#chart">圖表</a>
-            <a data-icon="contacts" href="#">小天使</a>
+            <a data-icon="contacts" href="#angel">小天使</a>
             <a data-icon="settings" href="#setting">設定</a>
         </div>
     </footer>
@@ -102,10 +102,15 @@
         <!-- 自動檢查今天是否有量血糖/吃藥/飲食紀錄 -->
         <div id="swipe_history">
             <ul  data-role="listview" data-style="inset" style="background:#ff5f5f;">
-                <li class="bloodsugarList"><i class="fa fa-times"></i>血糖</li> 
+                <li class="bloodsugarList">
+                    <i class="fa fa-times"></i>血糖
+                </li> 
                 <li class='medicineList' style="color:black;font-weight:bold;">
                     <i class="fa fa-times"></i>藥物
-                </li>                
+                </li>
+                <li class='dietList' style="color:black;font-weight:bold;">
+                    <i class="fa fa-times"></i>飲食
+                </li>
             </ul>
         </div>     
     </div>
@@ -214,7 +219,7 @@
             </label>
         </ul>
         <a data-role="button" data-click="newMed" >確定</a>
-        <a data-role="button" href="#:back">取消</a>
+        <a data-role="button" data-click="closeModalViewMed" >取消</a>
     </div>
 
     <!-- 飲食記錄 -->
@@ -261,7 +266,12 @@
             </label>
         </ul>
         <a data-role="button" data-click="newFood" >確定</a>
-        <a data-role="button" href="#:back">取消</a>
+        <a data-role="button" href="closeModalViewDiet">取消</a>
+    </div>
+
+    <!-- 小天使 -->
+    <div data-role="view" data-layout="app" id="angel" data-title="小天使">
+        敬請期待!
     </div>
 
     <!-- 設定 -->
@@ -285,8 +295,9 @@
 
             <li>同步
                 <ul>
+                    <li><div id="myID">我的ID: </div></li>
                     <li><a data-role="button" data-click="generateToken" >產生驗證碼</a><br></li>
-                    <li><a data-role="button" data-click="displayDeviceToken" >顯示驗證碼</a><br></li>
+                    <li><div id="myToken">我的驗證碼: </div></li>
                     <li>
                         輸入驗證碼<input type="text" id="inputToken" /><br>
                         <a data-role="button" data-click="checkToken" >確認</a><br>
