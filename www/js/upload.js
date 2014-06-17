@@ -19,6 +19,7 @@ function uploadJson() {
             // 傳送medicine 的資料
             for( var j = 0; j < medNum; j++ )
             {
+
                 // 傳送照片
                 medImgUpload(myData[i].medicine[j].imgPath, myData[i].medicine[j].imgName);
 
@@ -27,13 +28,15 @@ function uploadJson() {
                     date: myData[i].date,
                     name: myData[i].medicine[j].medname,
                     mealtype: myData[i].medicine[j].mealtype,
+
                     imgPath: serverMedImgPath,
                     imgName: myData[i].medicine[j].imgName,
+
                     comment: myData[i].medicine[j].comment,
                     id: userID
                 },
                 function(data){
-                    alert(serverMedImgPath);
+
                 });
             }
 
@@ -145,3 +148,4 @@ function win(r) {
 function lose(error) {
     alert("An error has occurred: Code = " + error.code);
 }
+

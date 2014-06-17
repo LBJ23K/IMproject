@@ -1,90 +1,85 @@
 $(document).ready(function(){
 
-    function onChange() {
-         var datepicker = $("#calendar").data("kendoDatePicker").value();
+        function onChange() {
+            var datepicker = $("#calendar").data("kendoDatePicker").value();
 
-        datepickerDate = datepicker.getFullYear() + '-'+(datepicker.getMonth()+1)+'-'+(datepicker.getDate() );
+            datepickerDate = datepicker.getFullYear() + '-'+(datepicker.getMonth()+1)+'-'+(datepicker.getDate() );
 
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforRead, fail );
-    }
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforRead, fail );
+        }
 
-    $("#calendar").kendoDatePicker({
-        change: onChange
-    });
+        function onChange2() {
+            var today = new Date();
 
+            datepickerDate = today.getFullYear() + '-'+(today.getMonth()+1)+'-'+(today.getDate() );
 
-    var bloodsugarRecordList = [];
-    $('#bloodSugar td').click(function(){
-        $('#bloodSugar td').each(function(){
-            $(this).removeClass('active');
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforRead, fail );
+        }
+        $("#calendar").kendoDatePicker({
+            change: onChange
         });
-        $(this).addClass('active');
-    });
+        var currentDate = new Date();  
+
+        var bloodsugarRecordList = [];
+        $('#bloodSugar td').click(function(){
+            $('#bloodSugar td').each(function(){
+                $(this).removeClass('active');
+            });
+            $(this).addClass('active');
+        });
         
-    $('.yoforchart').click(function(){
-        // alert('1');
-        var a ={};
-        // alert('y');
-        a.dateForchart = AmCharts.stringToDate('2014-5-21',"YYYY-M-DD");
-        a.beforebloodsugar = 10;
-        a.afterbloodsugar = 100;
-        chartData2.push(a);
-        // console.log(chartData2);
-        chart.dataProvider = chartData2;
-        chart.validateData();
-        chart.write('chartdiv');
-    });
 
-    $('#bloodSugar .submit').click(function(){
 
-        var bloodsugarData = {};
-        var bloodsugarDataWithdate = {};
-        var bloodsugar = parseInt( $('#bloodSugar .bloodSugar_input').val() );
-        var mealType = $('#bloodSugar td.active').text();
-        var comment = $('#bloodSugar textarea').val();
+        $('#bloodSugar .submit').click(function(){
 
-        if(mealType.substr(2,1)=='前') {
-            bloodsugarData.beforebloodsugar = bloodsugar;
-        }
-        else {
-            bloodsugarData.afterbloodsugar = bloodsugar;
-        }
-        bloodsugarData.value = bloodsugar;
-        bloodsugarData.mealtype = mealType;
-        bloodsugarData.comment = comment;
-        var newDate = new Date();
-        $.extend(bloodsugarDataWithdate,bloodsugarData);
+            var bloodsugarData = {};
+            var bloodsugarDataWithdate = {};
+            var bloodsugar = parseInt( $('#bloodSugar .bloodSugar_input').val() );
+            var mealType = $('#bloodSugar td.active').text();
+            var comment = $('#bloodSugar textarea').val();
 
-        var newDate2 = newDate.getFullYear() + '-'+(newDate.getMonth()+1)+'-'+(newDate.getDate() );
-        bloodsugarDataWithdate.date = newDate2;
+            if(mealType.substr(2,1)=='前') {
+                bloodsugarData.beforebloodsugar = bloodsugar;
+            }
+            else {
+                bloodsugarData.afterbloodsugar = bloodsugar;
+            }
+            bloodsugarData.value = bloodsugar;
+            bloodsugarData.mealtype = mealType;
+            bloodsugarData.comment = comment;
+            var newDate = new Date();
+            $.extend(bloodsugarDataWithdate,bloodsugarData);
 
-        if(globeData.length == 0 ){
-            data.date = newDate2;
-            data.medicine = [];
-            data.bloodsugar = [];
-            data.bloodsugar.push( bloodsugarData );
-            data.diet = [];
-            globeData.push( data );
-        }
-        else {
+            var newDate2 = newDate.getFullYear() + '-'+(newDate.getMonth()+1)+'-'+(newDate.getDate() );
+            bloodsugarDataWithdate.date = newDate2;
+
+            if(globeData.length == 0 ){
+                data.date = newDate2;
+                data.medicine = [];
+                data.bloodsugar = [];
+                data.bloodsugar.push( bloodsugarData );
+                data.diet = [];
+                globeData.push( data );
+            }
+            else {
             var found = false;
-            for(var i =globeData.length-1;i >= 0;i--){
-                if(globeData[i].date == newDate2){
-                    if( globeData[i].hasOwnProperty("bloodsugar") ) globeData[i].bloodsugar.push(bloodsugarData);
-                    else{
+                for(var i =globeData.length-1;i >= 0;i--){
+                    if(globeData[i].date == newDate2){
+                        if( globeData[i].hasOwnProperty("bloodsugar") ) globeData[i].bloodsugar.push(bloodsugarData);
+                        else{
                         globeData[i].bloodsugar = [];
                         globeData[i].bloodsugar.push(bloodsugarData);
-                    }
-                found = true;
-                break;
+                        }
+                    found = true;
+                    break;
                 }
-                if(!found){
-                    data.date = newDate2;
-                    data.medicine = [];
-                    data.bloodsugar = [];
-                    data.bloodsugar.push( bloodsugarData );
-                    data.diet = [];
-                    globeData.push( data );
+            if(!found){
+                data.date = newDate2;
+                data.medicine = [];
+                data.bloodsugar = [];
+                data.bloodsugar.push( bloodsugarData );
+                data.diet = [];
+                globeData.push( data );
                 }    
                 
             }
@@ -92,7 +87,9 @@ $(document).ready(function(){
         }
 
         console.log(globeData);
+
         $.blockUI({ css: { 
+
             border: 'none', 
             padding: '5px', 
             backgroundColor: '#000', 
@@ -115,7 +112,6 @@ $(document).ready(function(){
         clearBloodsugarRecord();
     });
 });
-
 
 
     function gotFSforWrite(fileSystem) {
@@ -148,6 +144,7 @@ $(document).ready(function(){
                 
             }
             check();
+            //onChange2();
         }
 
         writer.write( JSON.stringify(globeData) );
@@ -155,7 +152,8 @@ $(document).ready(function(){
 
     function fail(error) {
         console.log(error.code);
-        alert('fail'+error.code);
+        // alert('fail'+error.code);
+
     }
 
     function gotFSforRead(fileSystem) {
@@ -189,20 +187,30 @@ $(document).ready(function(){
             var medLength = ( (histroyData[i].medicine).length ) -1;
             var dietLength = ( (histroyData[i].diet).length ) -1;
 
-            // alert(bsLength+' '+medLength+' '+dietLength);
             if(bsLength+1 > 0 ){
-                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">血糖</span></div></div><ul class="km-list"><li>血糖值： <span class="value" >'+histroyData[i].bloodsugar[bsLength].value+'</span></li><li>餐別：<span class="value">'+histroyData[i].bloodsugar[bsLength].mealtype+'</span></li><li>備註：<br/><span class="comment">'+histroyData[i].bloodsugar[bsLength].comment+'</span></li></ul></li>');
+                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">血糖</span></div></div>');
+                for(var j=0;j<=bsLength;j++)
+                {
+                    $('#history .history-list ').append('<ul class="km-list"><li>血糖值： <span class="value" >'+histroyData[i].bloodsugar[j].value+'</span></li><li>餐別：<span class="value">'+histroyData[i].bloodsugar[j].mealtype+'</span></li><li>備註：<br/><span class="comment">'+histroyData[i].bloodsugar[j].comment+'</span></li></ul>');
+                }
+                $('#history .history-list ').append('</li>');
 
             }
             if(dietLength+1 > 0 ){
-                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">血糖</span></div></div><ul class="km-list"><li>血糖值： <span class="value" >'+history[i].diet[dietLength].value+'</span></li><li>餐別：<span class="value">'+history[i].diet[dietLength].mealtype+'</span></li><li>備註：<br/><span class="comment">'+history[i].diet[dietLength].comment+'</span></li></ul>');
-
+                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">飲食</span></div></div>');
+                for(var j=0;j<=dietLength;j++)
+                {
+                    $('#history .history-list ').append('<ul class="km-list"><li><img class="history-img" src="'+histroyData[i].diet[dietLength].imgPath+'"/><span class="img-des">'+datepickerDate+'</span></li><li>吃了： <span class="value" >'+histroyData[i].diet[dietLength].foodType+'</span></li><li>餐別：<span class="value">'+histroyData[i].diet[dietLength].mealtype+'</span></li><li>備註：<br/><span class="comment">'+histroyData[i].diet[dietLength].comment+'</span></li></ul>');
+                }
+                $('#history .history-list ').append('</li>');
             }
             if(medLength+1 > 0 ){
-            alert(histroyData[i].medicine[medLength].imgPath);
-
-                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">藥物</span></div></div><ul class="km-list"><li><img class="history-img" src="'+histroyData[i].medicine[medLength].imgPath+'"/><span class="img-des">'+datepickerDate+'</span></li><li>藥物：<span class="value" >'+histroyData[i].medicine[medLength].medname+'</li>'+'<li>餐別：<span class="value">'+histroyData[i].medicine[medLength].mealtype+'</span></li></ul></li>');
-
+                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">藥物</span></div></div>');
+                for(var j=0;j<=medLength;j++)
+                {
+                    $('#history .history-list ').append('<ul class="km-list"><li><img class="history-img" src="'+histroyData[i].medicine[medLength].imgPath+'"/><span class="img-des">'+datepickerDate+'</span></li><li>藥物：<span class="value" >'+histroyData[i].medicine[medLength].medname+'</li>'+'<li>餐別：<span class="value">'+histroyData[i].medicine[medLength].mealtype+'</span></li></ul>');
+                }
+                $('#history .history-list ').append('</li>');
             }
         }
         reader.readAsText(file);
@@ -233,39 +241,7 @@ $(document).ready(function(){
             chart.write('chartdiv');
 
     }
-    function triggerIndexButton(e) {
-            var viewID = e.view.element.attr("id");
-            if( viewID == 'bloodSugar' || viewID == 'history' 
-                ||viewID == 'alert' || viewID == 'medRecord'||viewID=='eatDrink') {
-                e.layout.header.find(".nav-backbtn").css('visibility','visible');
-            }
-            else if(viewID =='chart'){
-                e.layout.header.find(".nav-backbtn").css('visibility','hidden');
-                chart.validateData();
-                chart.write("chartdiv");
-            }
-            else{
-                e.layout.header.find(".nav-backbtn").css('visibility','hidden');
-            }
-        }
 
-
-        window.swipeTohistory = {
-            swipe: function(e) {
-            if(e.direction =="left") {
-                app.navigate('#history','slide:left');
-            }
-        }
-        
-    }
-    
-    window.swipeBack = {
-        swipe: function(e) {
-            if(e.direction =="right") {
-                app.navigate('#:back','slide:right');
-            }
-        }
-    }
 
 function clearBloodsugarRecord() {
     $('#bloodSugar td').each(function() {
@@ -274,3 +250,4 @@ function clearBloodsugarRecord() {
     document.getElementById("bloodsugarText").value = "";
     document.getElementById("bloodsugarValue").value = "";
 }
+

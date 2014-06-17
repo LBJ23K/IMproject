@@ -1,5 +1,6 @@
-@media screen  and (max-height: 100px) {
-    .km-widget.km-tabstrip{
+
+@media screen  and (max-height: 300px) {
+    #footer{
         display: none;
     }
 }
@@ -8,12 +9,12 @@ html{
     position: relative;
 }
 
-#bloodSugar td, #medRecord td{
+#bloodSugar td, #medRecord td,#eatDrink td{
     font-size: 18px;
     opacity: 0.3;
     cursor: pointer;
 }
-#bloodSugar td.active, #medRecord td.active{
+#bloodSugar td.active, #medRecord td.active,#eatDrink td.active{
     opacity: 1;
     background-color: inherit;
 }
@@ -36,7 +37,9 @@ html{
 }
 #bloodSugar button{
     width:30%;
-    height: 8%;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
 }
 #bloodSugar .reset{
     float: right;
@@ -81,7 +84,7 @@ html{
 #medRecord .medImage {
     display: block;
     width: 100%;
-    height: 35%;
+    height: 60%;
     text-align: center;
     border: 1px solid #333;
     position: relative;
@@ -108,15 +111,22 @@ html{
 }
 #medRecord button{
     width:30%;
-    height: 8%;
+    height: 40px;
     font-size: 18px;
-    text-align: center;}
+    text-align: center;
+}
 #medRecord .reset{
     float: right;
 }
 #medRecord .submit{
     float: left;
 }
+
+#userMed{
+    padding: 2px;
+    margin-top: 5px;
+}
+
 #history .value{
     float: right;
 }
@@ -127,9 +137,9 @@ html{
     /*display: none;*/
 }
 #history .history-img{
-    width: 30%;
+    width: 50%;
     height: 30%;
-    border-radius: 50%;
+    /*border-radius: 60%;*/
     /*border: 1px solid red;*/
     -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
 -moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
@@ -137,14 +147,14 @@ box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
 
 }
 #history .img-des{
-    font-size: 30px;
+    font-size: 20px;
     margin-left: 5%;
 }
 
 #eatDrink .eatImage {
     display: block;
     width: 100%;
-    height: 35%;
+    height: 60%;
     text-align: center;
     border: 1px solid #333;
     position: relative;
@@ -180,7 +190,7 @@ box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
 }
 #eatDrink button{
     width:30%;
-    height: 8%;
+    height: 40px;;
 }
 #eatDrink .reset{
     float: right;
@@ -188,3 +198,18 @@ box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
 #eatDrink .submit{
     float: left;
 }
+
+.modalinput{
+    font-size:18px;
+
+}
+.modalbtn{
+    width:100%;
+    text-align:center;
+    margin-top: 5%;
+    height: 25%;
+}
+.btn_container{
+    margin-bottom: 10px;
+}
+

@@ -1,3 +1,4 @@
+
 // 此函式檢查今天是否有吃藥
 function check() {
 
@@ -100,4 +101,3 @@ function check() {
         reader.readAsText(file);
     }
 }
-   

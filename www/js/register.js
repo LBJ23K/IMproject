@@ -17,6 +17,7 @@ function getID() {
     
     function(data){
         userID = data;
+
         document.getElementById('myID').innerHTML = "我的ID: " + userID;
     });
 }

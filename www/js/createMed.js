@@ -41,7 +41,8 @@ function gotFileWritermedname(writer) {
             writer.seek(writer.length);
             writer.write(newMedName);
                 writer.onwriteend = function(evt){
-                    console.log("write successfully");
+                    // console.log("write successfully");
+                    $("#createMed").kendoMobileModalView("close");
                 }
         };
 
@@ -99,3 +100,4 @@ function updateMedSelect() {
 function closeModalViewMed() {
     $("#createMed").kendoMobileModalView("close");
 }
+

@@ -98,3 +98,4 @@ function updateFoodCheckbox() {
 function closeModalViewDiet() {
     $("#createFood").kendoMobileModalView("close");
 }
+

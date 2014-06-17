@@ -1,0 +1,215 @@
+
+@media screen  and (max-height: 300px) {
+    #footer{
+        display: none;
+    }
+}
+
+html{
+    position: relative;
+}
+
+#bloodSugar td, #medRecord td,#eatDrink td{
+    font-size: 18px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+#bloodSugar td.active, #medRecord td.active,#eatDrink td.active{
+    opacity: 1;
+    background-color: inherit;
+}
+#bloodSugar .bloodsugar_main{
+    font-size: 20px;
+}
+
+#bloodSugar .table.table-bordered{
+    margin-top: 5%;
+}
+#bloodSugar .form-control{
+    margin-top: 5%;
+}
+#bloodSugar .btn_container{
+    display: block;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+#bloodSugar button{
+    width:30%;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+}
+#bloodSugar .reset{
+    float: right;
+}
+#bloodSugar .submit{
+    float: left;
+}
+.bloodsugarList {
+    color:black;
+    font-weight:bold;
+}
+.km-arrow-yo:after,
+.km-arrow-yo:before
+{
+    content: "\e04f";
+}
+.large_btn{
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    padding: 0px;
+    display: block;
+}
+.circle-change{
+    position: absolute;
+    left: 50%;
+    font-size: 10px;
+    bottom: 0;
+    margin-left: -12px;
+}
+.circle-change i{
+    margin: 2px;
+}
+#swipe_history{
+    width: 100%;
+    height: 100%;
+}
+
+#medRecord .med_main{
+    font-size: 16px;
+}
+#medRecord .medImage {
+    display: block;
+    width: 100%;
+    height: 60%;
+    text-align: center;
+    border: 1px solid #333;
+    position: relative;
+    margin-bottom: 4%;
+}
+#medRecord .des{
+    font-size: 30px;
+    position: absolute;
+    top:50%;
+    margin-top: -15px;
+    right: 50%;
+    margin-right: -60px;
+
+}
+#medRecord .table.table-bordered{
+    margin-top: 4%;
+}
+#medRecord .btn_container{
+    display: block;
+    margin-top: 4%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+#medRecord button{
+    width:30%;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+}
+#medRecord .reset{
+    float: right;
+}
+#medRecord .submit{
+    float: left;
+}
+
+#userMed{
+    padding: 2px;
+    margin-top: 5px;
+}
+
+#history .value{
+    float: right;
+}
+#history .comment{
+
+}
+#history .history-list{
+    /*display: none;*/
+}
+#history .history-img{
+    width: 50%;
+    height: 30%;
+    /*border-radius: 60%;*/
+    /*border: 1px solid red;*/
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+
+}
+#history .img-des{
+    font-size: 20px;
+    margin-left: 5%;
+}
+
+#eatDrink .eatImage {
+    display: block;
+    width: 100%;
+    height: 60%;
+    text-align: center;
+    border: 1px solid #333;
+    position: relative;
+    margin-bottom: 4%;
+}
+#eatDrink .des{
+    font-size: 30px;
+    position: absolute;
+    top:50%;
+    margin-top: -15px;
+    right: 50%;
+    margin-right: -60px;
+
+}
+#eatDrink .eatform input{
+    margin: 8px;
+}
+#eatDrink .addnewItem{
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    display: block;
+}
+#eatDrink .form-control{
+    margin-top: 5%;
+}
+#eatDrink .btn_container{
+    display: block;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+#eatDrink button{
+    width:30%;
+    height: 40px;;
+}
+#eatDrink .reset{
+    float: right;
+}
+#eatDrink .submit{
+    float: left;
+}
+
+.modalinput{
+    font-size:18px;
+
+}
+.modalbtn{
+    width:100%;
+    text-align:center;
+    margin-top: 5%;
+    height: 25%;
+}
+.btn_container{
+    margin-bottom: 10px;
+}
+

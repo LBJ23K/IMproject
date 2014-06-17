@@ -1,11 +1,14 @@
 var medImgURI = '';
 var medImgName = '';
 
+var medData = {};
+
 $(document).ready(function () {
     $('#medRecord .submit').click(function () {
         var medData = {};
 
-        var medName = $('#medRecord .medName :selected').text();
+        var medName = $('#medRecord #medSelect :selected').text();
+        console.log(medName);
         var medTime = $('#medRecord td.active').text();
         var newDate = new Date();
         var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
@@ -14,9 +17,9 @@ $(document).ready(function () {
         medData.medname = medName;
         medData.mealtype = medTime;
         medData.imgPath = medImgURI;
-        medData.imgName = medImgName;
+        
         medData.comment = medComment;
-
+        // $('#medRecord .test2').attr('src',medImgURI);
         if (globeData.length == 0) {
             data.date = newDate2;
             data.medicine = [];
@@ -78,6 +81,7 @@ $(document).ready(function () {
         clearMedRecord();
         window.location.reload();
     });
+
 });
 
 function gotFS(fileSystem) {
@@ -123,7 +127,9 @@ function capturePhotoForMed(){
         alert('照相失敗!');
     }, {
         quality : 40,
-        destinationType : navigator.camera.DestinationType.FILE_URI
+
+        destinationType : navigator.camera.DestinationType.FILE_URI,
+        correctOrientation:1
     });
 }
 
@@ -153,6 +159,7 @@ function fsFail(error) {
 function onFail(message) {
     alert('Failed because: ' + message);
 }
+
 
 function clearMedRecord() {
     $('#medRecord td').each(function() {

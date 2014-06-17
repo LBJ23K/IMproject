@@ -29,6 +29,7 @@ function displayDeviceToken() {
     
     function(data){
         document.getElementById('myToken').innerHTML = "我的驗證碼: " + data;
+        alert("驗證碼是 " + data);
     });
 }
 
@@ -55,6 +56,8 @@ function changeID(id) {
     
     function(data){
         alert(data);
+        userID = data;
+        changeID(userID);
     });
 }
 
@@ -201,6 +204,7 @@ function syncBloodsugar(serverData) {
                     found = true;
                     break;
                 }
+
                 if(!found){
                     data.date = newDate2;
                     data.medicine = [];
@@ -210,6 +214,7 @@ function syncBloodsugar(serverData) {
                     jsonData.push( data );
                 }
             }
+           
         }
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSbssync, fail );
     }
