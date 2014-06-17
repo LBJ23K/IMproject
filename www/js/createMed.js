@@ -75,7 +75,6 @@ function readAsTextmedname(file) {
     reader.onloadend = function(evt) {
         //assign the data to the global var
         medNameArray = evt.target.result.split(',');
-        alert("藥物名稱=" + medNameArray);
         //upload json data
         updateMedSelect();
     };
