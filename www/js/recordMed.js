@@ -1,12 +1,22 @@
+var medData = {};
+var medImgURI = '';
+var medimgName_global = '';
 $(document).ready(function () {
     $('#medRecord .submit').click(function () {
-        var medName = $('#medRecord .medName :selected').text();
+
+        var medName = $('#medRecord #medSelect :selected').text();
+        console.log(medName);
         var medTime = $('#medRecord td.active').text();
         var newDate = new Date();
-        var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate());
+        var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
+        var medComment = $('#medRecord textarea').val();
+        
         medData.medname = medName;
         medData.mealtype = medTime;
-
+        medData.imgPath = medImgURI;
+        medData.imgName = medimgName_global;
+        medData.comment = medComment;
+        // $('#medRecord .test2').attr('src',medImgURI);
         if (globeData.length == 0) {
             data.date = newDate2;
             data.medicine = [];
@@ -35,10 +45,9 @@ $(document).ready(function () {
                     globeData.push(data);
                 }
             }
-
         }
 
-         $.blockUI({ css: { 
+        $.blockUI({ css: { 
             border: 'none', 
             padding: '5px', 
             backgroundColor: '#000', 
@@ -47,15 +56,23 @@ $(document).ready(function () {
             opacity: '0.5',
             color: '#fff' 
             },
-            message:"<h2>Processing...</h2>"
-        
-         }); 
+            message:"<h2>Processing...</h2>"       
+        }); 
+
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     })
+
+    $('#medRecord td').click(function(){
+        $('#medRecord td').each(function(){
+            $(this).removeClass('active');
+        });
+        $(this).addClass('active');
+    });
 
     $('#medRecord .medImage').click(function(){
         capturePhotoForMed();
     })
+
     $('#medRecord .reset').click(function(){
         $('#medRecord td').each(function(){
                 $(this).removeClass('active');
@@ -80,9 +97,8 @@ function gotFileEntry(fileEntry) {
 function gotFileWriter2(writer) {
 
     writer.onwriteend = function () {
-        alert('done');
 
-         $.blockUI({ css: { 
+        $.blockUI({ css: { 
             border: 'none', 
             padding: '5px', 
             backgroundColor: 'rgba(0,0,0,0.6)', 
@@ -92,36 +108,53 @@ function gotFileWriter2(writer) {
             },
             message:"<h2>Finish!!</h2>"
         
-            }); 
+        });
+        // 檢查是否有記錄
+        setTimeout($.unblockUI, 1500);
         check();
+        onChange2();
     }
+
     writer.write(JSON.stringify(globeData));
+
 }
 
-
+// 照相
 function capturePhotoForMed(){
     navigator.camera.getPicture(onPhotoSuccessMed, function(message) {
-        alert('Image Capture Failed');
+        alert('照相失敗!');
     }, {
         quality : 40,
-        destinationType : navigator.camera.DestinationType.FILE_URI
+        destinationType : navigator.camera.DestinationType.FILE_URI,
+        correctOrientation:1
     });
 }
 
-
 function onPhotoSuccessMed(imageURI) {
     $('#medRecord .medImage .des').hide();
+    // alert(imageURI);
     $('#medRecord .medImage img').attr('src',imageURI);
-        // resolve file system for image  
+    // resolve file system for image  
     window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
-            imageName = randomString(5);
-            fileEntry.moveTo(fileSystem.root, imageName+'.jpg', null, null); 
+            var medImgName = randomString(5);
+            medImgName = medImgName + '.jpg';
+            medimgName_global = medImgName;
+            fileEntry.moveTo(fileSystem.root, medImgName, getMedURI, fsFail);
         }, fsFail);
-    }, fsFail); 
+    }, fsFail);
 }
 
+function getMedURI(fileEntry) {
+    // retrieve uri
+    medImgURI = fileEntry.toURL();
+}
 
 function fsFail(error) { 
     alert("failed with error code: " + error.code); 
+}
+
+// Called if something bad happens.
+function onFail(message) {
+    alert('Failed because: ' + message);
 }
