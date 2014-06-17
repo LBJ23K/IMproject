@@ -60,6 +60,7 @@ $(document).ready(function () {
         }); 
 
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+        
     })
 
     $('#medRecord td').click(function(){
@@ -71,16 +72,12 @@ $(document).ready(function () {
 
     $('#medRecord .medImage').click(function(){
         capturePhotoForMed();
-    })
+    });
 
-    $('#medRecord .reset').click(function(){
-        $('#medRecord td').each(function(){
-                $(this).removeClass('active');
-        });
-        $('#medRecord .medImage img').attr('src','');
-        $('#medRecord .medImage .des').show();
-        
-    })
+    $('#medRecord .reset').click(function() {
+        clearMedRecord();
+        window.location.reload();
+    });
 });
 
 function gotFS(fileSystem) {
@@ -112,6 +109,8 @@ function gotFileWriter2(writer) {
         setTimeout($.unblockUI, 2000);
         // 檢查是否有記錄
         check();
+        clearMedRecord();
+        window.open("index.html#recordHome");
     }
 
     writer.write(JSON.stringify(globeData));
@@ -153,4 +152,13 @@ function fsFail(error) {
 // Called if something bad happens.
 function onFail(message) {
     alert('Failed because: ' + message);
+}
+
+function clearMedRecord() {
+    $('#medRecord td').each(function() {
+        $(this).removeClass('active');
+    });
+    $('#medRecord .medImage img').attr('src','');
+    $('#medRecord .medImage .des').show();
+    document.getElementById("medText").value = "";
 }

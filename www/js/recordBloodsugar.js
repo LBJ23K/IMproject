@@ -1,89 +1,90 @@
 $(document).ready(function(){
 
-        function onChange() {
-            var datepicker = $("#calendar").data("kendoDatePicker").value();
+    function onChange() {
+         var datepicker = $("#calendar").data("kendoDatePicker").value();
 
-            datepickerDate = datepicker.getFullYear() + '-'+(datepicker.getMonth()+1)+'-'+(datepicker.getDate() );
+        datepickerDate = datepicker.getFullYear() + '-'+(datepicker.getMonth()+1)+'-'+(datepicker.getDate() );
 
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforRead, fail );
-        }
-        $("#calendar").kendoDatePicker({
-            change: onChange
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforRead, fail );
+    }
+
+    $("#calendar").kendoDatePicker({
+        change: onChange
+    });
+
+
+    var bloodsugarRecordList = [];
+    $('#bloodSugar td').click(function(){
+        $('#bloodSugar td').each(function(){
+            $(this).removeClass('active');
         });
-
-
-        var bloodsugarRecordList = [];
-        $('#bloodSugar td').click(function(){
-            $('#bloodSugar td').each(function(){
-                $(this).removeClass('active');
-            });
-            $(this).addClass('active');
-        });
+        $(this).addClass('active');
+    });
         
-        $('.yoforchart').click(function(){
-            // alert('1');
-            var a ={};
-            // alert('y');
-            a.dateForchart = AmCharts.stringToDate('2014-5-21',"YYYY-M-DD");
-            a.beforebloodsugar = 10;
-            a.afterbloodsugar = 100;
-            chartData2.push(a);
-            // console.log(chartData2);
-            chart.dataProvider = chartData2;
-            chart.validateData();
-            chart.write('chartdiv');
-        });
+    $('.yoforchart').click(function(){
+        // alert('1');
+        var a ={};
+        // alert('y');
+        a.dateForchart = AmCharts.stringToDate('2014-5-21',"YYYY-M-DD");
+        a.beforebloodsugar = 10;
+        a.afterbloodsugar = 100;
+        chartData2.push(a);
+        // console.log(chartData2);
+        chart.dataProvider = chartData2;
+        chart.validateData();
+        chart.write('chartdiv');
+    });
 
-        $('#bloodSugar .submit').click(function(){
+    $('#bloodSugar .submit').click(function(){
 
-            var bloodsugarData = {};
-            var bloodsugarDataWithdate = {};
-            var bloodsugar = parseInt( $('#bloodSugar .bloodSugar_input').val() );
-            var mealType = $('#bloodSugar td.active').text();
-            var comment = $('#bloodSugar textarea').val();
+        var bloodsugarData = {};
+        var bloodsugarDataWithdate = {};
+        var bloodsugar = parseInt( $('#bloodSugar .bloodSugar_input').val() );
+        var mealType = $('#bloodSugar td.active').text();
+        var comment = $('#bloodSugar textarea').val();
 
-            if(mealType.substr(2,1)=='前') {
-                bloodsugarData.beforebloodsugar = bloodsugar;
-            }
-            else {
-                bloodsugarData.afterbloodsugar = bloodsugar;
-            }
-            bloodsugarData.value = bloodsugar;
-            bloodsugarData.mealtype = mealType;
-            bloodsugarData.comment = comment;
-            var newDate = new Date();
-            $.extend(bloodsugarDataWithdate,bloodsugarData);
+        if(mealType.substr(2,1)=='前') {
+            bloodsugarData.beforebloodsugar = bloodsugar;
+        }
+        else {
+            bloodsugarData.afterbloodsugar = bloodsugar;
+        }
+        bloodsugarData.value = bloodsugar;
+        bloodsugarData.mealtype = mealType;
+        bloodsugarData.comment = comment;
+        var newDate = new Date();
+        $.extend(bloodsugarDataWithdate,bloodsugarData);
 
-            var newDate2 = newDate.getFullYear() + '-'+(newDate.getMonth()+1)+'-'+(newDate.getDate() );
-            bloodsugarDataWithdate.date = newDate2;
+        var newDate2 = newDate.getFullYear() + '-'+(newDate.getMonth()+1)+'-'+(newDate.getDate() );
+        bloodsugarDataWithdate.date = newDate2;
 
-            if(globeData.length == 0 ){
-                data.date = newDate2;
-                data.medicine = [];
-                data.bloodsugar = [];
-                data.bloodsugar.push( bloodsugarData );
-                data.diet = [];
-                globeData.push( data );
-            }
-            else {
+        if(globeData.length == 0 ){
+            data.date = newDate2;
+            data.medicine = [];
+            data.bloodsugar = [];
+            data.bloodsugar.push( bloodsugarData );
+            data.diet = [];
+            globeData.push( data );
+        }
+        else {
             var found = false;
-                for(var i =globeData.length-1;i >= 0;i--){
-                    if(globeData[i].date == newDate2){
-                        if( globeData[i].hasOwnProperty("bloodsugar") ) globeData[i].bloodsugar.push(bloodsugarData);
-                        else{
+            for(var i =globeData.length-1;i >= 0;i--){
+                if(globeData[i].date == newDate2){
+                    if( globeData[i].hasOwnProperty("bloodsugar") ) globeData[i].bloodsugar.push(bloodsugarData);
+                    else{
                         globeData[i].bloodsugar = [];
                         globeData[i].bloodsugar.push(bloodsugarData);
-                        }
-                    found = true;
-                    break;
+                    }
+                found = true;
+                break;
                 }
-            if(!found){
-                data.date = newDate2;
-                data.medicine = [];
-                data.bloodsugar = [];
-                data.bloodsugar.push( bloodsugarData );
-                data.diet = [];
-                globeData.push( data );
+                if(!found){
+                    data.date = newDate2;
+                    data.medicine = [];
+                    data.bloodsugar = [];
+                    data.bloodsugar.push( bloodsugarData );
+                    data.diet = [];
+                    globeData.push( data );
                 }    
                 
             }
@@ -91,7 +92,7 @@ $(document).ready(function(){
         }
 
         console.log(globeData);
-            $.blockUI({ css: { 
+        $.blockUI({ css: { 
             border: 'none', 
             padding: '5px', 
             backgroundColor: '#000', 
@@ -104,11 +105,16 @@ $(document).ready(function(){
         
         }); 
 
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforWrite, fail );
-            // checkChartData(bloodsugarDataWithdate);
-        });
-        
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSforWrite, fail );
+        // checkChartData(bloodsugarDataWithdate);
+        clearBloodsugarRecord();
+        window.open("index.html#recordHome");
     });
+    
+    $('#bloodSugar .reset').click(function() {
+        clearBloodsugarRecord();
+    });
+});
 
 
 
@@ -142,8 +148,6 @@ $(document).ready(function(){
                 
             }
             check();
-
-
         }
 
         writer.write( JSON.stringify(globeData) );
@@ -195,8 +199,9 @@ $(document).ready(function(){
 
             }
             if(medLength+1 > 0 ){
+            alert(histroyData[i].medicine[medLength].imgPath);
 
-                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">藥物</span></div></div><ul class="km-list"><li><img class="history-img" src="img/do.jpg"/><span class="img-des">'+datepickerDate+'</span></li><li>藥物：<span class="value" >'+histroyData[i].medicine[medLength].medname+'</li>'+'<li>餐別：<span class="value">'+histroyData[i].medicine[medLength].mealtype+'</span></li></ul></li>');
+                $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">藥物</span></div></div><ul class="km-list"><li><img class="history-img" src="'+histroyData[i].medicine[medLength].imgPath+'"/><span class="img-des">'+datepickerDate+'</span></li><li>藥物：<span class="value" >'+histroyData[i].medicine[medLength].medname+'</li>'+'<li>餐別：<span class="value">'+histroyData[i].medicine[medLength].mealtype+'</span></li></ul></li>');
 
             }
         }
@@ -261,3 +266,11 @@ $(document).ready(function(){
             }
         }
     }
+
+function clearBloodsugarRecord() {
+    $('#bloodSugar td').each(function() {
+        $(this).removeClass('active');
+    });
+    document.getElementById("bloodsugarText").value = "";
+    document.getElementById("bloodsugarValue").value = "";
+}

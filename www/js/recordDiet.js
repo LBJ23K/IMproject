@@ -77,6 +77,13 @@ $(document).ready(function(){
         }); 
 
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS_diet, fail);
+        clearDietRecord();
+        window.open("index.html#recordHome");
+    });
+
+    $('#eatDrink .reset').click(function() {
+        clearDietRecord();
+        window.location.reload();
     });
 });
 
@@ -160,4 +167,13 @@ function randomString(length) {
 
 function onFail(message) {
     alert('Failed because: ' + message);
+}
+
+function clearDietRecord() {
+    $('#eatDrink .eatImage img').attr('src','');
+    $('#eatDrink .eatImage .des').show();
+    document.getElementById("dietText").value = "";
+    $('input[name="foodCheck[]"]').each(function () {
+        this.checked = false; 
+    });
 }
