@@ -29,6 +29,7 @@ function check() {
             // alert('read');
             var result = false; 
             var result2 = false;
+            var result3 = false;
             var newDate = new Date().getFullYear()+ '-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
 
             var temp = evt.target.result;
@@ -76,6 +77,21 @@ function check() {
                     '<ul>'+'<li>時間: '+allData[i].medicine[k].mealtype+'</li>'+
                     '<li>藥物: '+allData[i].medicine[k].medname+'</li>'+'</ul>');
                 $('#home .medicineList').click(function(){
+                    $(this).children('ul').slideToggle();
+                })
+
+            }
+            
+            var h = allData[i].diet.length - 1;
+            //alert('h='+h);
+            if(allData[i].diet.length>0) result3 = true;
+            if( result3 == true ){
+                // alert('result3');
+
+                $('#home .dietList').css('background-color','#66FF33');
+                $('#home .dietList').html('<i class="fa fa-check"></i>飲食'+
+                    '<ul>'+'<li>食物: '+allData[i].diet[h].foodType+'</li>'+'</ul>');
+                $('#home .dietList').click(function(){
                     $(this).children('ul').slideToggle();
                 })
 

@@ -3,12 +3,12 @@ var dietImgURI = '';
 var foodImageName = '';
 
 $(document).ready(function(){
-	$('#eatDrink .eatImage').click(function(){
-		capturePhoto();
-	});
+    $('#eatDrink .eatImage').click(function(){
+        capturePhoto();
+    });
 
-	$('#eatDrink .submit').click(function(){
-		var foodString = "";
+    $('#eatDrink .submit').click(function(){
+        var foodString = "";
 
         $('input[name="foodCheck[]"]').each(function () {
             if (this.checked)
@@ -24,25 +24,25 @@ $(document).ready(function(){
             }
         });
 
-		var newDate = new Date();
+        var newDate = new Date();
         var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
-		var foodComment = $('#eatDrink textarea').val();
-		
-		dietData.foodType = foodString;
-		dietData.imgPath = dietImgURI;
+        var foodComment = $('#eatDrink textarea').val();
+        
+        dietData.foodType = foodString;
+        dietData.imgPath = dietImgURI;
         dietData.imgName = foodImageName;
-		dietData.comment = foodComment;
+        dietData.comment = foodComment;
 
-		if(globeData.length == 0) {
-			data.date = newDate2;
-			data.diet = [];
-			data.diet.push(dietData);
-			data.medicine = [];
-			data.bloodsugar = [];
-			globeData.push(data);
-		} else {
-			var found = false;
-			for (var i = globeData.length - 1; i >= 0; i--) {
+        if(globeData.length == 0) {
+            data.date = newDate2;
+            data.diet = [];
+            data.diet.push(dietData);
+            data.medicine = [];
+            data.bloodsugar = [];
+            globeData.push(data);
+        } else {
+            var found = false;
+            for (var i = globeData.length - 1; i >= 0; i--) {
                 if (globeData[i].date == newDate2) {
                     if (globeData[i].hasOwnProperty("diet")) globeData[i].diet.push(dietData);
                     else {
@@ -81,27 +81,27 @@ $(document).ready(function(){
 });
 
 function capturePhoto() {
-	// Retrieve image file location from specified source
-	navigator.camera.getPicture(onPhotoSuccess, function(message) {
-		alert('Image Capture Failed');
-	}, {
-		quality : 40,
-		destinationType : navigator.camera.DestinationType.FILE_URI
-	});
+    // Retrieve image file location from specified source
+    navigator.camera.getPicture(onPhotoSuccess, function(message) {
+        alert('Image Capture Failed');
+    }, {
+        quality : 40,
+        destinationType : navigator.camera.DestinationType.FILE_URI
+    });
 }
 
 function onPhotoSuccess(imageURI) {
-	$('#eatDrink .eatImage .des').hide();
+    $('#eatDrink .eatImage .des').hide();
 
     $('#eatDrink .eatImage img').attr('src',imageURI);
-	// resolve file system for image  
+    // resolve file system for image  
     window.resolveLocalFileSystemURI(imageURI, function (fileEntry){
-    	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
-    		foodImageName = randomString(5);
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
+            foodImageName = randomString(5);
             foodImageName = foodImageName + '.jpg';
-    		fileEntry.moveTo(fileSystem.root, foodImageName, getDietURI, fsFail); 
-    		//app.navigate('#eatDrink');
-    	}, fsFail);
+            fileEntry.moveTo(fileSystem.root, foodImageName, getDietURI, fsFail); 
+            //app.navigate('#eatDrink');
+        }, fsFail);
     }, fsFail); 
 }
 
@@ -136,6 +136,7 @@ function gotFileWriter_diet(writer) {
             message:"<h2>Finish!!</h2>"
         });
         setTimeout($.unblockUI, 2000);
+        check();
     }
 
     //convert a value to JSON

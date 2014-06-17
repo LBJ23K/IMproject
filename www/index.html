@@ -230,7 +230,7 @@
                 <div class="eatImage"><p class="des">點此拍照</p><img style="display:block;width:100%;height:100%;" src=""/></div>
                 <br>
 
-                <h3>這餐我吃了什麼?</h3>
+                <span>攝取食物</span>
                 <form class="eatForm" id="foodCheckbox">
                     <input type="checkbox" name="foodCheck[]" value="五榖根莖">五榖根莖<br>
                     <input type="checkbox" name="foodCheck[]" value="蛋豆魚肉">蛋豆魚肉<br>
@@ -242,7 +242,7 @@
                     <a data-role="button" data-rel="modalview" href="#createFood">新增食物</a>
                 <br><br>
 
-                <h3>備註：</h3>
+                <span>備註：</span><br>
                 <textarea  class="form-control"rows="4"></textarea>
                 <div class='btn_container'>
                         <button data-role="button" class="submit">完成</button>
@@ -281,8 +281,11 @@
                 <ul>
                     <!-- 量血糖通知 -->
                     <li>
-                        <div>提醒量血糖 <input data-role="switch" class="bsNoti" checked="checked"/></div>
-                        <a data-role="button" class="submit" >確定</a><br>
+                        <li><div>提醒量血糖 <input data-role="switch" class="bsNoti" checked="checked"/></div></li>
+                        <li>
+                            <input id="alertTimepicker" /><br>
+                            <a data-role="button" data-click="alertSetup" >確定</a>
+                        </li>
                     </li>
                 </ul>
             </li>
@@ -299,8 +302,8 @@
                     <li><a data-role="button" data-click="generateToken" >產生驗證碼</a><br></li>
                     <li><div id="myToken">我的驗證碼: </div></li>
                     <li>
-                        輸入驗證碼<input type="text" id="inputToken" /><br>
-                        <a data-role="button" data-click="checkToken" >確認</a><br>
+                        輸入驗證碼:<input type="text" id="inputToken" /><br>
+                        <a data-role="button" data-click="checkToken" >確認</a>
                     </li>
                     <li><a data-role="button" data-click="syncData" >同步檔案</a><br></li>
                 </ul>
