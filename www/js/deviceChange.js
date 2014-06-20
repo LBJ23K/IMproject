@@ -2,6 +2,9 @@ var token = function() {
     return Math.random().toString(36).substr(2); // remove '0.'
 };
 
+// substring
+token = token.substr( 0 , 8 );
+
 var jsonData = [];
 
 var userToken = '';
