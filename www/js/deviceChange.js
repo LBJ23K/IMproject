@@ -1,9 +1,6 @@
 var token = function() {
-    return Math.random().toString(36).substr(2); // remove '0.'
+    return Math.random().toString(36).substr(10); // remove '0.', length 8
 };
-
-// substring
-token = token.substr( 0 , 8 );
 
 var jsonData = [];
 

@@ -173,19 +173,30 @@ $(document).ready(function(){
         reader.onloadend = function(evt) {
             $('#history .history-list').html('');
             var temp = evt.target.result;
+            //alert("temp="+temp);
 
             var histroyData = JSON.parse(temp);
-            var i=0;
+            var i = 0;
+            //alert("length="+histroyData.length);
 
-            for(i;i<histroyData.length;i++){
+            for( var j = 0; j < histroyData.length; j++ ) {
+            //alert("j="+j);
+            //alert("history="+histroyData[j].date);
+            //alert("picker="+datepickerDate);
 
-                if(histroyData[i].date == datepickerDate ) {
+                if(histroyData[j].date == datepickerDate ) {
+                i = j;
+                //alert("j="+j);
                     break;
                 }
             }
+            //alert("i="+i);
             var bsLength = ( (histroyData[i].bloodsugar).length )-1;
+            //alert("bsLength="+bsLength);
             var medLength = ( (histroyData[i].medicine).length ) -1;
+            //alert("medLength="+medLength);
             var dietLength = ( (histroyData[i].diet).length ) -1;
+            //alert("dietLength="+dietLength);
 
             if(bsLength+1 > 0 ){
                 $('#history .history-list ').append('<li class="km-group-container"><div class="km-group-title"><div class="km-text"><span style="font-size:25px;">血糖</span></div></div>');

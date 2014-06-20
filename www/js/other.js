@@ -18,7 +18,7 @@ function triggerIndexButton(e) {
             }
             if(viewID=='eatDrink')
             {
-                // loadFoodName();
+                loadFoodName();
             }
             if(viewID=='history')
             {

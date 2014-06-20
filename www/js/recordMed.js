@@ -80,7 +80,6 @@ $(document).ready(function () {
 
     $('#medRecord .reset').click(function() {
         clearMedRecord();
-        window.location.reload();
     });
 
 });

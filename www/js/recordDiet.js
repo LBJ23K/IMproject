@@ -7,6 +7,13 @@ $(document).ready(function(){
         capturePhoto();
     });
 
+    $('#eatDrink td').click(function(){
+        $('#eatDrink td').each(function(){
+            $(this).removeClass('active');
+        });
+        $(this).addClass('active');
+    });
+
     $('#eatDrink .submit').click(function(){
         var foodString = "";
 
@@ -24,6 +31,7 @@ $(document).ready(function(){
             }
         });
 
+        var dietTime = $('#eatDrink td.active').text();
         var newDate = new Date();
         var newDate2 = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate()); 
         var foodComment = $('#eatDrink textarea').val();
@@ -32,6 +40,7 @@ $(document).ready(function(){
         dietData.imgPath = dietImgURI;
         dietData.imgName = foodImageName;
         dietData.comment = foodComment;
+        dietData.mealtype = dietTime;
 
         if(globeData.length == 0) {
             data.date = newDate2;
@@ -83,7 +92,6 @@ $(document).ready(function(){
 
     $('#eatDrink .reset').click(function() {
         clearDietRecord();
-        window.location.reload();
     });
 });
 
@@ -175,5 +183,9 @@ function clearDietRecord() {
     document.getElementById("dietText").value = "";
     $('input[name="foodCheck[]"]').each(function () {
         this.checked = false; 
+    });
+    document.getElementById("dietText").value = "";
+    $('#eatDrink td').each(function() {
+        $(this).removeClass('active');
     });
 }

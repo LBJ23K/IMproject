@@ -9,7 +9,7 @@ function gotFileEntryforInit(fileEntry) {
 function gotFileforInit(file){
     readAsTextInit(file);
 }
-   
+
 function readAsTextInit(file) {
     var reader = new FileReader();
     reader.onloadend = function(evt) {
@@ -20,6 +20,7 @@ function readAsTextInit(file) {
         // var temp = JSON.parse('[' + chartData + ']');
         var temp2 = JSON.parse(chartData);
         globeData = temp2;
+alert("globe=" + JSON.stringify(globeData));
         var temp3 = [];
             
         var Allafterbloodsugar = 0;
