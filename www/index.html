@@ -115,7 +115,7 @@
             data-transition="slide" >
             <div data-role="touch" data-enable-swipe="1" data-swipe="swipeBack.swipe" style="width:100%;height:100%;padding:20 10 20 10">
                 <div class='bloodsugar_main'>
-                    <span>血糖值：</span><input class="bloodSugar_input" type="text" placeholder="mg/dl">
+                    <span>血糖值：</span><input id="bloodsugarValue" class="bloodSugar_input" type="text" placeholder="mg/dl">
                     <table  class="table table-bordered" >
                         <tr>
                             <td>早餐前</td>
@@ -131,7 +131,7 @@
                         </tr>
                     </table>
                     <span>備註：</span><br>
-                    <textarea  class="form-control"rows="4"></textarea>
+                    <textarea id="bloodsugarText" class="form-control" rows="4"></textarea>
                     <div class='btn_container'>
                         <button data-role="button" class="submit">完成</button>
                         <button data-role="button" class="reset" >清除</button>
@@ -168,9 +168,9 @@
                         </tr>
                     </table>
                     <span>備註：</span><br>
-                    <textarea  class="form-control" rows="4"></textarea>
+                    <textarea id="medText" class="form-control" rows="4"></textarea>
                     <div class='btn_container'>
-                        <button data-role="button" class="submit">確定</button>
+                        <button data-role="button" class="submit">完成</button>
                         <button data-role="button" class="reset" >清除</button>
                     </div>
                 </div>
@@ -187,6 +187,7 @@
             <div class='modalinput'>藥物名稱: <input type="text" id="userMed" /></div>
             <a data-click="newMed"  type="button" data-role="button" class='modalbtn' style="font-size: 20px;">確定</a>
         </div>
+
         <!-- 飲食記錄 -->
         <div data-role="view" data-layout="app" id="eatDrink" data-title="飲食記錄"
             data-transition="slide" >
@@ -194,7 +195,7 @@
                 <div class="eatdrink_main">
                     <div class="eatImage"><p class="des">點此拍照</p><img style="display:block;width:100%;height:100%;" src=""/></div>
                     <br>
-                    <h3>這餐我吃了什麼?</h3>
+                    <span>攝取食物</span>
                     <form class="eatForm" id="foodCheckbox">
                         <input type="checkbox" name="foodCheck[]" value="五榖根莖">五榖根莖<br>
                         <input type="checkbox" name="foodCheck[]" value="蛋豆魚肉">蛋豆魚肉<br>
@@ -212,8 +213,8 @@
                             <td>晚餐</td>
                         </tr>
                     </table>
-                    <h3>備註：</h3>
-                    <textarea  class="form-control"rows="4"></textarea>
+                    <span>備註：</span><br>
+                    <textarea id="dietText" class="form-control"rows="4"></textarea>
                     <div class='btn_container'>
                         <button data-role="button" class="submit">完成</button>
                         <button data-role="button" class="reset" >清除</button>

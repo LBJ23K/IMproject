@@ -63,7 +63,8 @@ $(document).ready(function () {
         }); 
 
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-        
+        clearMedRecord();
+        window.open("index.html#recordHome");
     })
 
     $('#medRecord td').click(function(){
